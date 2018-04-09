@@ -1,0 +1,58 @@
+{
+	"planets": {
+		"mercury": {
+			"name": "mercury",
+			"position": 1,
+			"orbit": 87.969,
+			"colour": "grey"
+		},
+		"venus": {
+			"name": "venus",
+			"position": "2",
+			"orbit": 224.701,
+			"colour": "yellow"
+		},
+		"earth": {
+			"name": "earth",
+			"position": "3",
+			"orbit": 365.256,
+			"colour": "blue"
+		},
+		"mars": {
+			"name": "mars",
+			"position": "4",
+			"orbit": 686.971,
+			"colour": "red"
+		},
+		"jupiter": {
+			"name": "jupiter",
+			"position": "5",
+			"orbit": 4332.59,
+			"colour": "brown"
+		},
+		"saturn": {
+			"name": "saturn",
+			"position": "6",
+			"orbit": 10759.22,
+			"colour": "orange"
+		},
+		"uranus": {
+			"name": "uranus",
+			"position": "7",
+			"orbit": 30688.5,
+			"colour": "aqua"
+		},
+		"neptune": {
+			"name": "neptune",
+			"position": "8",
+			"orbit": 60182,
+			"colour": "purple"
+		},
+		"pluto": {
+			"name": "pluto",
+			"position": "9",
+			"orbit": 90560,
+			"colour": "copper"
+		}
+	}
+}

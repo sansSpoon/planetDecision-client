@@ -1,0 +1,32 @@
+{
+  "name": "planet-decision",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Helping the planets align.",
+  "dependencies": {
+    "react": "^16.3.1",
+    "react-dom": "^16.3.1",
+    "react-scripts": "1.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sansSpoon/planetDecision-client.git"
+  },
+  "keywords": [
+    "fun",
+    "fortune",
+    "experiment"
+  ],
+  "author": "sansSpoon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sansSpoon/planetDecision-client/issues"
+  },
+  "homepage": "https://github.com/sansSpoon/planetDecision-client#readme"
+}
