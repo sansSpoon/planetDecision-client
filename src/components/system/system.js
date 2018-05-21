@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class System extends Component {
+export default class System extends Component {
 
 	constructor(props) {
 		super(props);
