@@ -25,12 +25,12 @@ class Planet extends Component {
 					<input id="rotation" name="rotation" type="number" value={this.state.rotation} onChange={this.handleChange} />
 				</div>
 				<div>
-					<label htmlFor="aphelion">Aphelion (AU)</label>
-					<input id="aphelion" name="aphelion" type="number" value={this.state.aphelion} onChange={this.handleChange} />
+					<label htmlFor="apoapsis">Apoapsis (AU)</label>
+					<input id="apoapsis" name="apoapsis" type="number" value={this.state.apoapsis} onChange={this.handleChange} />
 				</div>
 				<div>
-					<label htmlFor="perihelion">Perihelion (AU)</label>
-					<input id="perihelion" name="perihelion" type="number" value={this.state.perihelion} onChange={this.handleChange} />
+					<label htmlFor="periapsis">Periapsis (AU)</label>
+					<input id="periapsis" name="periapsis" type="number" value={this.state.periapsis} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="orbit">Orbit (km/s)</label>
