@@ -21,19 +21,28 @@ export default class System extends Component {
 	}
 	
 	handleAddHierarchy(event) {
-		console.log(event);
 		const newHierarchy = {
 			name: this.state.hierarchyName,
 			star: '',
 			planets: [],
-		}
-		console.log(newHierarchy);
+		};
 		this.setState((prevState) => ({
 			hierarchy: [...prevState.hierarchy, newHierarchy]
 		}));
 	}
+	
+	handleDeleteHierarchy(id) {
+		this.setState({
+			hierarchy: this.state.hierarchy.filter((value) => value.name !== id)
+		});
+	}
 
 	render() {
+		
+		const hierarchies = this.state.hierarchy.map((item) => {
+			return (<li key={item.name}>{item.name} <input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item.name)} /></li>);
+			});
+		
 		return (
 			<form>
 				<div>
@@ -45,9 +54,11 @@ export default class System extends Component {
 					<input id="hierarchy" name="hierarchyName" type="text" value={this.state.hierarchyName} onChange={this.handleChange} />
 				</div>
 				<input name="addHierarchy" value="Add Hierarchy" type="button" onClick={this.handleAddHierarchy} />
+				<div>
+					<ul>{ hierarchies }</ul>
+				</div>
 			</form>
 		);
-		
 		
 	}
 
