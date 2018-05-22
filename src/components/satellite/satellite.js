@@ -25,14 +25,7 @@ export default class Satellite extends Component {
 	}
 	
 	handleSave(event) {
-		this.props.onSave({
-			name: this.state.name,
-			radius: this.state.radius,
-			rotation: this.state.rotation,
-			apoapsis: this.state.apoapsis,
-			periapsis: this.state.periapsis,
-			orbit: this.state.orbit,
-		})
+		this.props.onSave(this.state)
 	}
 
 	render() {

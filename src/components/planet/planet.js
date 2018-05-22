@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Satellite from '../satellite/satellite';
+import { inspectResponse } from '../utilities/utilities';
 
 export default class Planet extends Component {
 
@@ -29,11 +30,11 @@ export default class Planet extends Component {
 	handleAddSatellite(sat) {
 		const newSatellite = {
 			name: sat.name,
-			radius: sat.radius,
-			rotation: sat.rotation,
-			apoapsis: sat.apoapsis,
-			periapsis: sat.periapsis,
-			orbit: sat.orbit,
+			radiusKM: sat.radius,
+			rotationVelocityKMH: sat.rotation,
+			apoapsisAU: sat.apoapsis,
+			periapsisAU: sat.periapsis,
+			orbitVelocityKMS: sat.orbit,
 		};
 
 		this.setState((prevState) => ({
@@ -41,19 +42,54 @@ export default class Planet extends Component {
 		}));
 
 	}
-	
-/*
+
 	handleDeleteSatellite(id) {
 		this.setState({
-			hierarchy: this.state.hierarchy.filter((value) => value.name !== id)
+			satellites: this.state.satellites.filter((value) => value.name !== id)
 		});
 	}
-*/
+	
+	handleSave(event) {
+		event.preventDefault();
+		
+		const apiBaseUri = "http://localhost:3001/planets/",
+			payload = {
+				"name": this.state.systemName,
+				"hierarchies": this.state.hierarchy
+			},
+			initGet = {
+				body: JSON.stringify(payload),
+				method: 'POST',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+		
+		fetch(apiBaseUri, initGet)
+			.then(inspectResponse)
+			.then(({status, data}) => {
+				if (status >= 200 || status <= 299) {
+					console.log(data);
+				} else {
+					this.setState({
+						status: 401,
+						message: data
+					});
+				}
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			});
+	}
+
 
 	render() {
 		
 		const satellites = this.state.satellites.map((item) => {
-			return (<li key={item.name}>{item.name} <input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item.name)} /></li>);
+			return (<li key={item.name}>{item.name} <input name="deleteSatellite" value="Delete" type="button" onClick={() => this.handleDeleteSatellite(item.name)} /></li>);
 		});
 		
 		return (
