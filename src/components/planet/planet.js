@@ -7,13 +7,18 @@ export default class Planet extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			radiusKM: '',
-			rotationVelocityKMH: '',
-			aphelionAU: '',
-			perihelionAU: '',
-			orbitVelocityKMS: '',
-			satellites: [],
+			data: {
+				name: '',
+				radiusKM: '',
+				rotationVelocityKMH: '',
+				aphelionAU: '',
+				perihelionAU: '',
+				orbitVelocityKMS: '',
+				satellites: [],
+			},
+			messages: {
+				
+			},
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -25,18 +30,18 @@ export default class Planet extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({[name]: value});
+		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
 	handleAddSatellite(newSatellite) {
 		this.setState((prevState) => ({
-			satellites: [...prevState.satellites, newSatellite]
+			data: { ...this.state.data, satellites: [...prevState.data.satellites, newSatellite] }
 		}));
 	}
 
 	handleDeleteSatellite(id) {
 		this.setState({
-			satellites: this.state.satellites.filter((value) => value.name !== id)
+			data: { ...this.state.data, satellites: this.state.satellites.filter((value) => value.name !== id) }
 		});
 	}
 	
@@ -45,7 +50,7 @@ export default class Planet extends Component {
 		
 		const apiBaseUri = "http://localhost:3001/planets/",
 			initGet = {
-				body: JSON.stringify(this.state),
+				body: JSON.stringify(this.state.data),
 				method: 'POST',
 				mode: 'cors',
 				cache: 'default',
@@ -75,7 +80,7 @@ export default class Planet extends Component {
 
 	render() {
 		
-		const satellites = this.state.satellites.map((item) => {
+		const satellites = this.state.data.satellites.map((item) => {
 			return (<li key={item.name}>{item.name} <input name="deleteSatellite" value="Delete" type="button" onClick={() => this.handleDeleteSatellite(item.name)} /></li>);
 		});
 		
