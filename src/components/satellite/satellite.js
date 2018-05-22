@@ -6,11 +6,11 @@ export default class Satellite extends Component {
 		super(props);
 		this.state = {
 			name: '',
-			radius: '',
-			rotation: '',
-			apoapsis: '',
-			periapsis: '',
-			orbit: '',
+			radiusKM: '',
+			rotationVelocityKMH: '',
+			apoapsisAU: '',
+			periapsisAU: '',
+			orbitVelocityKMS: '',
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -37,23 +37,23 @@ export default class Satellite extends Component {
 				</div>
 				<div>
 					<label htmlFor="radius">Radius (km)</label>
-					<input id="radius" name="radius" type="number" value={this.state.radius} onChange={this.handleChange} />
+					<input id="radius" name="radiusKM" type="number" value={this.state.radiusKM} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="rotation">Rotation (km/h)</label>
-					<input id="rotation" name="rotation" type="number" value={this.state.rotation} onChange={this.handleChange} />
+					<input id="rotation" name="rotationVelocityKMH" type="number" value={this.state.rotationVelocityKMH} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="apoapsis">Apoapsis (AU)</label>
-					<input id="apoapsis" name="apoapsis" type="number" value={this.state.apoapsis} onChange={this.handleChange} />
+					<input id="apoapsis" name="apoapsisAU" type="number" value={this.state.apoapsisAU} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="periapsis">Periapsis (AU)</label>
-					<input id="periapsis" name="periapsis" type="number" value={this.state.periapsis} onChange={this.handleChange} />
+					<input id="periapsis" name="periapsisAU" type="number" value={this.state.periapsisAU} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="orbit">Orbit (km/s)</label>
-					<input id="orbit" name="orbit" type="number" value={this.state.orbit} onChange={this.handleChange} />
+					<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.orbitVelocityKMS} onChange={this.handleChange} />
 				</div>
 				<input name="add" type="button" value="add" onClick={this.handleSave} />
 			</form>

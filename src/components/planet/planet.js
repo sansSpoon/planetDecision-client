@@ -28,20 +28,10 @@ export default class Planet extends Component {
 		this.setState({[name]: value});
 	}
 	
-	handleAddSatellite(sat) {
-		const newSatellite = {
-			name: sat.name,
-			radiusKM: sat.radius,
-			rotationVelocityKMH: sat.rotation,
-			apoapsisAU: sat.apoapsis,
-			periapsisAU: sat.periapsis,
-			orbitVelocityKMS: sat.orbit,
-		};
-
+	handleAddSatellite(newSatellite) {
 		this.setState((prevState) => ({
 			satellites: [...prevState.satellites, newSatellite]
 		}));
-
 	}
 
 	handleDeleteSatellite(id) {
