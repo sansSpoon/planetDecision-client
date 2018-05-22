@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+import { inspectResponse } from '../utilities/utilities';
 
 export default class System extends Component {
 
 	constructor(props) {
 		super(props);
 		this.state = {
+			systemName: '',
 			hierarchyName: '',
 			hierarchy: [],
 		};
 		
 		this.handleAddHierarchy = this.handleAddHierarchy.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.handleSave = this.handleSave.bind(this);
 	}
 	
 	handleChange(event) {
@@ -23,8 +26,8 @@ export default class System extends Component {
 	handleAddHierarchy(event) {
 		const newHierarchy = {
 			name: this.state.hierarchyName,
-			star: '',
-			planets: [],
+			//star: '',
+			//planets: [],
 		};
 		this.setState((prevState) => ({
 			hierarchy: [...prevState.hierarchy, newHierarchy]
@@ -36,27 +39,71 @@ export default class System extends Component {
 			hierarchy: this.state.hierarchy.filter((value) => value.name !== id)
 		});
 	}
+	
+	handleSave(event) {
+
+		event.preventDefault();
+		
+		const apiBaseUri = "http://localhost:3001/systems/",
+			payload = {
+				"name": this.state.systemName,
+				"hierarchies": this.state.hierarchy
+			},
+			initGet = {
+				body: JSON.stringify(payload),
+				method: 'POST',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+		
+		fetch(apiBaseUri, initGet)
+			.then(inspectResponse)
+			.then(({status, data}) => {
+				if (status >= 200 || status <= 299) {
+					console.log(data);
+				} else {
+					this.setState({
+						status: 401,
+						message: data
+					});
+				}
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			});
+	
+	
+	
+	
+	
+	
+	}
 
 	render() {
 		
 		const hierarchies = this.state.hierarchy.map((item) => {
 			return (<li key={item.name}>{item.name} <input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item.name)} /></li>);
-			});
+		});
 		
 		return (
 			<form>
 				<div>
 					<label htmlFor="name">Name</label>
-					<input id="name" name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+					<input id="systemName" name="systemName" type="text" value={this.state.name} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="hierarchy">Hierarchy</label>
-					<input id="hierarchy" name="hierarchyName" type="text" value={this.state.hierarchyName} onChange={this.handleChange} />
+					<input id="hierarchyName" name="hierarchyName" type="text" value={this.state.hierarchyName} onChange={this.handleChange} />
 				</div>
 				<input name="addHierarchy" value="Add Hierarchy" type="button" onClick={this.handleAddHierarchy} />
 				<div>
 					<ul>{ hierarchies }</ul>
 				</div>
+				<input name="save" value="Save" type="submit" onClick={this.handleSave} />
 			</form>
 		);
 		
