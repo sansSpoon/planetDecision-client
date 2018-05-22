@@ -8,7 +8,7 @@ export default class System extends Component {
 		this.state = {
 			systemName: '',
 			hierarchyName: '',
-			hierarchy: [],
+			hierarchies: [],
 		};
 		
 		this.handleAddHierarchy = this.handleAddHierarchy.bind(this);
@@ -30,13 +30,13 @@ export default class System extends Component {
 			//planets: [],
 		};
 		this.setState((prevState) => ({
-			hierarchy: [...prevState.hierarchy, newHierarchy]
+			hierarchies: [...prevState.hierarchies, newHierarchy]
 		}));
 	}
 	
 	handleDeleteHierarchy(id) {
 		this.setState({
-			hierarchy: this.state.hierarchy.filter((value) => value.name !== id)
+			hierarchies: this.state.hierarchies.filter((value) => value.name !== id)
 		});
 	}
 	
@@ -47,9 +47,9 @@ export default class System extends Component {
 		const apiBaseUri = "http://localhost:3001/systems/",
 			payload = {
 				"name": this.state.systemName,
-				"hierarchies": this.state.hierarchy
+				"hierarchies": this.state.hierarchies
 			},
-			initGet = {
+			init = {
 				body: JSON.stringify(payload),
 				method: 'POST',
 				mode: 'cors',
@@ -60,7 +60,7 @@ export default class System extends Component {
 				}
 			};
 		
-		fetch(apiBaseUri, initGet)
+		fetch(apiBaseUri, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 || status <= 299) {
@@ -75,17 +75,45 @@ export default class System extends Component {
 			.catch(error => {
 				console.log('There has been a problem with the fetch operation: ', error.message);
 			});
+	}
 	
-	
-	
-	
-	
-	
+	componentDidMount() {
+		const apiBaseUri = "http://localhost:3001/systems/",
+			payload = {
+				"name": this.state.systemName,
+				"hierarchies": this.state.hierarchy
+			},
+			init = {
+				//body: JSON.stringify(payload),
+				method: 'GET',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+		
+		fetch(apiBaseUri, init)
+			.then(inspectResponse)
+			.then(({status, data}) => {
+				if (status >= 200 || status <= 299) {
+					console.log(data);
+				} else {
+					this.setState({
+						status: 401,
+						message: data
+					});
+				}
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			});
 	}
 
 	render() {
 		
-		const hierarchies = this.state.hierarchy.map((item) => {
+		const hierarchies = this.state.hierarchies.map((item) => {
 			return (<li key={item.name}>{item.name} <input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item.name)} /></li>);
 		});
 		
