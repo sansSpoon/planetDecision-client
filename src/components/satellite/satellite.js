@@ -5,8 +5,34 @@ export default class Satellite extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			
+			name: '',
+			radius: '',
+			rotation: '',
+			apoapsis: '',
+			periapsis: '',
+			orbit: '',
 		};
+		
+		this.handleChange = this.handleChange.bind(this);
+		this.handleSave = this.handleSave.bind(this);
+	}
+	
+	handleChange(event) {
+		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
+		const name = target.name;
+		this.setState({[name]: value});
+	}
+	
+	handleSave(event) {
+		this.props.onSave({
+			name: this.state.name,
+			radius: this.state.radius,
+			rotation: this.state.rotation,
+			apoapsis: this.state.apoapsis,
+			periapsis: this.state.periapsis,
+			orbit: this.state.orbit,
+		})
 	}
 
 	render() {
@@ -36,6 +62,7 @@ export default class Satellite extends Component {
 					<label htmlFor="orbit">Orbit (km/s)</label>
 					<input id="orbit" name="orbit" type="number" value={this.state.orbit} onChange={this.handleChange} />
 				</div>
+				<input name="add" type="button" value="add" onClick={this.handleSave} />
 			</form>
 		);
 	}
