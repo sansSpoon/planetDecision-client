@@ -6,9 +6,15 @@ export default class System extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			systemName: '',
-			hierarchyName: '',
-			hierarchies: [],
+			data: {
+				systemName: '',
+				hierarchyName: '',
+				hierarchies: [],
+			},
+			messages: {
+				status: '',
+				message: '',
+			},
 		};
 		
 		this.handleAddHierarchy = this.handleAddHierarchy.bind(this);
@@ -20,7 +26,7 @@ export default class System extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({[name]: value});
+		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
 	handleAddHierarchy(event) {
@@ -30,13 +36,13 @@ export default class System extends Component {
 			//planets: [],
 		};
 		this.setState((prevState) => ({
-			hierarchies: [...prevState.hierarchies, newHierarchy]
+			data: { ...this.state.data, hierarchies: [...prevState.data.hierarchies, newHierarchy] }
 		}));
 	}
 	
 	handleDeleteHierarchy(id) {
 		this.setState({
-			hierarchies: this.state.hierarchies.filter((value) => value.name !== id)
+			data: { ...this.state.data, hierarchies: this.state.data.hierarchies.filter((value) => value.name !== id) }
 		});
 	}
 	
@@ -46,8 +52,8 @@ export default class System extends Component {
 		
 		const apiBaseUri = "http://localhost:3001/systems/",
 			payload = {
-				"name": this.state.systemName,
-				"hierarchies": this.state.hierarchies
+				"name": this.state.data.systemName,
+				"hierarchies": this.state.data.hierarchies
 			},
 			init = {
 				body: JSON.stringify(payload),
@@ -63,12 +69,11 @@ export default class System extends Component {
 		fetch(apiBaseUri, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
-					console.log(data);
+				if (status >= 200 && status <= 299) {
+					console.log(data, status);
 				} else {
 					this.setState({
-						status: 401,
-						message: data
+						messages: { ...this.state.messages, status: 401, message: data.message }
 					});
 				}
 			})
@@ -80,8 +85,8 @@ export default class System extends Component {
 	componentDidMount() {
 		const apiBaseUri = "http://localhost:3001/systems/",
 			payload = {
-				"name": this.state.systemName,
-				"hierarchies": this.state.hierarchy
+				"name": this.state.data.systemName,
+				"hierarchies": this.state.data.hierarchy
 			},
 			init = {
 				//body: JSON.stringify(payload),
@@ -97,12 +102,11 @@ export default class System extends Component {
 		fetch(apiBaseUri, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
-					console.log(data);
+				if (status >= 200 && status <= 299) {
+					console.log(data, status);
 				} else {
 					this.setState({
-						status: 401,
-						message: data
+						messages: { ...this.state.messages, status: 401, message: data.message }
 					});
 				}
 			})
@@ -113,7 +117,7 @@ export default class System extends Component {
 
 	render() {
 		
-		const hierarchies = this.state.hierarchies.map((item) => {
+		const hierarchies = this.state.data.hierarchies.map((item) => {
 			return (<li key={item.name}>{item.name} <input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item.name)} /></li>);
 		});
 		
@@ -121,11 +125,11 @@ export default class System extends Component {
 			<form>
 				<div>
 					<label htmlFor="name">Name</label>
-					<input id="systemName" name="systemName" type="text" value={this.state.name} onChange={this.handleChange} />
+					<input id="systemName" name="systemName" type="text" value={this.state.data.name} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="hierarchy">Hierarchy</label>
-					<input id="hierarchyName" name="hierarchyName" type="text" value={this.state.hierarchyName} onChange={this.handleChange} />
+					<input id="hierarchyName" name="hierarchyName" type="text" value={this.state.data.hierarchyName} onChange={this.handleChange} />
 				</div>
 				<input name="addHierarchy" value="Add Hierarchy" type="button" onClick={this.handleAddHierarchy} />
 				<div>

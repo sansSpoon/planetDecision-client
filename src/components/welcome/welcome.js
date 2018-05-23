@@ -7,10 +7,14 @@ class Welcome extends Component {
 		
 		super(props);
 		this.state = {
-			email: '',
-			password: '',
-			status: '',
-			message: '',
+			data: {
+				email: '',
+				password: '',
+			},
+			messages: {
+				status: '',
+				message: '',
+			},
 		}
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -21,22 +25,15 @@ class Welcome extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({[name]: value});
+		this.setState({data: {...this.state.data, [name]: value }});
 	}
 
 	handleSubmit(event) {
 		event.preventDefault();
-		
-		const target = event.target;
-		const name = target.name;
-		
-		
+
 		const apiBaseUri = "http://localhost:3001/auth/",
-			payload = {
-				"email": this.state.email,
-				"password": this.state.password
-			},
-			initGet = {
+			payload = this.state.data,
+			init = {
 				body: JSON.stringify(payload),
 				method: 'POST',
 				mode: 'cors',
@@ -48,16 +45,16 @@ class Welcome extends Component {
 		
 		let authFetch;
 		
-		if (name === 'signIn') {
-			authFetch = fetch(`${apiBaseUri}signin`, initGet);
+		if (event.target.name === 'signIn') {
+			authFetch = fetch(`${apiBaseUri}signin`, init);
 		} else {
-			authFetch = fetch(`${apiBaseUri}signup`, initGet);
+			authFetch = fetch(`${apiBaseUri}signup`, init);
 		}
 		
 		authFetch
 			.then(inspectResponse)
 			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
+				if (status >= 200 && status <= 299) {
 					this.props.onLogin({
 						authenticated: true,
 						authUser: payload.email,
@@ -65,8 +62,7 @@ class Welcome extends Component {
 					});
 				} else {
 					this.setState({
-						status: 401,
-						message: data
+						messages: { ...this.state.messages, status: status, message: data.message }
 					});
 				}
 			})
@@ -78,15 +74,15 @@ class Welcome extends Component {
 	render() {
 		return(
 			<React.Fragment>
-				{(this.state.status >= 300) &&
-					<p>{this.state.message.message}</p>
+				{(this.state.messages.status >= 300) &&
+					<p>{this.state.messages.message}</p>
 				}
 				
 				<form>
 					<label htmlFor="email">Email</label>
-					<input id="email" name="email" type="email" value={this.state.email} onChange={this.handleChange} />
+					<input id="email" name="email" type="email" value={this.state.data.email} onChange={this.handleChange} />
 					<label htmlFor="password">Password</label>
-					<input id="password" name="password" type="password" value={this.state.password} onChange={this.handleChange} />
+					<input id="password" name="password" type="password" value={this.state.data.password} onChange={this.handleChange} />
 					<input type="submit" name="signIn" value="Sign In" onClick={this.handleSubmit} />
 					<input type="button" name="signUp" value="Sign Up" onClick={this.handleSubmit} />
 				</form>

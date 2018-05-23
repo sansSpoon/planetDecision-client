@@ -17,7 +17,8 @@ export default class Planet extends Component {
 				satellites: [],
 			},
 			messages: {
-				
+				status: '',
+				message: '',
 			},
 		};
 		
@@ -41,7 +42,7 @@ export default class Planet extends Component {
 
 	handleDeleteSatellite(id) {
 		this.setState({
-			data: { ...this.state.data, satellites: this.state.satellites.filter((value) => value.name !== id) }
+			data: { ...this.state.data, satellites: this.state.data.satellites.filter((value) => value.name !== id) }
 		});
 	}
 	
@@ -49,7 +50,7 @@ export default class Planet extends Component {
 		event.preventDefault();
 		
 		const apiBaseUri = "http://localhost:3001/planets/",
-			initGet = {
+			init = {
 				body: JSON.stringify(this.state.data),
 				method: 'POST',
 				mode: 'cors',
@@ -60,15 +61,14 @@ export default class Planet extends Component {
 				}
 			};
 		
-		fetch(apiBaseUri, initGet)
+		fetch(apiBaseUri, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
-					console.log(data);
+				if (status >= 200 && status <= 299) {
+					console.log(data, status);
 				} else {
 					this.setState({
-						status: 401,
-						message: data
+						messages: { ...this.state.messages, status: 401, message: data.message }
 					});
 				}
 			})
@@ -89,27 +89,27 @@ export default class Planet extends Component {
 				<form>
 					<div>
 						<label htmlFor="name">Name</label>
-						<input id="name" name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+						<input id="name" name="name" type="text" value={this.state.data.name} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="radius">Radius (km)</label>
-						<input id="radius" name="radiusKM" type="number" value={this.state.radiusKM} onChange={this.handleChange} />
+						<input id="radius" name="radiusKM" type="number" value={this.state.data.radiusKM} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="rotation">Rotation (km/h)</label>
-						<input id="rotation" name="rotationVelocityKMH" type="number" value={this.state.rotationVelocityKMH} onChange={this.handleChange} />
+						<input id="rotation" name="rotationVelocityKMH" type="number" value={this.state.data.rotationVelocityKMH} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="aphelion">Aphelion (AU)</label>
-						<input id="aphelion" name="aphelionAU" type="number" value={this.state.aphelionAU} onChange={this.handleChange} />
+						<input id="aphelion" name="aphelionAU" type="number" value={this.state.data.aphelionAU} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="perihelion">Perihelion (AU)</label>
-						<input id="perihelion" name="perihelionAU" type="number" value={this.state.perihelionAU} onChange={this.handleChange} />
+						<input id="perihelion" name="perihelionAU" type="number" value={this.state.data.perihelionAU} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="orbit">Orbit (km/s)</label>
-						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.orbitVelocityKMS} onChange={this.handleChange} />
+						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.data.orbitVelocityKMS} onChange={this.handleChange} />
 					</div>
 					<input name="add" type="submit" value="submit" onClick={this.handleSave} />
 				</form>

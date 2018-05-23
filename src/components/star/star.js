@@ -6,9 +6,15 @@ export default class Star extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			radiusKM: '',
-			rotationVelocityKMH: '',
+			data: {
+				name: '',
+				radiusKM: '',
+				rotationVelocityKMH: '',
+			},
+			messages: {
+				status: '',
+				message: '',
+			},
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -19,15 +25,16 @@ export default class Star extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({[name]: value});
+		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
 	handleSave(event) {
 		event.preventDefault();
 		
 		const apiBaseUri = "http://localhost:3001/stars/",
-			initGet = {
-				body: JSON.stringify(this.state),
+			payload = this.state.data,
+			init = {
+				body: JSON.stringify(payload),
 				method: 'POST',
 				mode: 'cors',
 				cache: 'default',
@@ -37,15 +44,14 @@ export default class Star extends Component {
 				}
 			};
 		
-		fetch(apiBaseUri, initGet)
+		fetch(apiBaseUri, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
-					console.log(data);
+				if (status >= 200 && status <= 299) {
+					console.log(data, status);
 				} else {
 					this.setState({
-						status: 401,
-						message: data
+						messages: { ...this.state.messages, status: 401, message: data.message }
 					});
 				}
 			})
@@ -59,15 +65,15 @@ export default class Star extends Component {
 			<form>
 				<div>
 					<label htmlFor="name">Name</label>
-					<input id="name" name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+					<input id="name" name="name" type="text" value={this.state.data.name} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="radius">Radius (km)</label>
-					<input id="radius" name="radiusKM" type="text" value={this.state.radiusKM} onChange={this.handleChange} />
+					<input id="radius" name="radiusKM" type="text" value={this.state.data.radiusKM} onChange={this.handleChange} />
 				</div>
 				<div>
 					<label htmlFor="rotation">Rotation (km/h)</label>
-					<input id="rotation" name="rotationVelocityKMH" type="text" value={this.state.rotationVelocityKMH} onChange={this.handleChange} />
+					<input id="rotation" name="rotationVelocityKMH" type="text" value={this.state.data.rotationVelocityKMH} onChange={this.handleChange} />
 				</div>
 				<input name="save" value="save" type="submit" onClick={this.handleSave} />
 			</form>
