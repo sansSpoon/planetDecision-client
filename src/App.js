@@ -31,16 +31,18 @@ class App extends Component {
 	}
 	
 	handleAuth(auth) {
-		this.setState({data: {...this.state.data, auth }});
+		this.setState({data: {...this.state.data, ...auth }});
 	}
 	
 	handleSetLocalStorage() {
+		console.log("handleSetLocalStorage");
 		for (let key in this.state.data) {
 			localStorage.setItem(key, JSON.stringify(this.state.data[key]));
 		}
 	}
 	
 	handleGetLocalStorage() {
+		console.log("handleGetLocalStorage");
 		for (let key in this.state.data) {
 			if (localStorage.hasOwnProperty(key)) {
 				this.setState({data: { ...this.state.data, [key]: JSON.parse(localStorage.getItem(key)) }});
@@ -55,23 +57,29 @@ class App extends Component {
 	}
 	
 	componentDidMount() {
+		console.log("componentDidMount");
 		this.handleGetLocalStorage();
 		
 		// add event listener to save state to localStorage
 		// when user leaves/refreshes the page
+/*
 		window.addEventListener(
 			"beforeunload",
 			this.handleSetLocalStorage.bind(this)
 		);
+*/
 	}
 	
 	componentWillUnmount() {
+		console.log("componentWillUnmount");
+/*
 		window.removeEventListener(
 			"beforeunload",
 			this.handleSetLocalStorage.bind(this)
 		);
+*/
 		
-		this.handleGetLocalStorage();
+		this.handleSetLocalStorage();
 	}
 	
 	render() {

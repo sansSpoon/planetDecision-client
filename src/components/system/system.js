@@ -83,6 +83,7 @@ export default class System extends Component {
 	}
 	
 	componentDidMount() {
+		console.log("SYSTEM componentDidMount");
 		const apiBaseUri = "http://localhost:3001/systems/",
 			payload = {
 				"name": this.state.data.systemName,
