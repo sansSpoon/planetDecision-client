@@ -12,10 +12,18 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			nav: 'system',
-			authenticated: false,
-			authUser: '',
-			token: '',
+			data: {
+				authenticated: false,
+				authUser: '',
+				token: '',
+			},
+			ui: {
+				nav: 'system',
+			},
+			messages: {
+				status: '',
+				message: '',
+			}
 		};
 		
 		this.handleNav = this.handleNav.bind(this);
@@ -23,23 +31,19 @@ class App extends Component {
 	}
 	
 	handleAuth(auth) {
-		this.setState({
-			authenticated: auth.authenticated,
-			authUser: auth.authUser,
-			token: auth.token,
-		});
+		this.setState({data: {...this.state.data, auth }});
 	}
 	
 	handleSetLocalStorage() {
-		for (let key in this.state) {
-			localStorage.setItem(key, JSON.stringify(this.state[key]));
+		for (let key in this.state.data) {
+			localStorage.setItem(key, JSON.stringify(this.state.data[key]));
 		}
 	}
 	
 	handleGetLocalStorage() {
-		for (let key in this.state) {
+		for (let key in this.state.data) {
 			if (localStorage.hasOwnProperty(key)) {
-				this.setState({ [key]: JSON.parse(localStorage.getItem(key)) });
+				this.setState({data: { ...this.state.data, [key]: JSON.parse(localStorage.getItem(key)) }});
 			}
 		}
 	}
@@ -47,7 +51,7 @@ class App extends Component {
 	handleNav(event) {
 		const target = event.target;
 		const name = target.name;
-		this.setState({'nav': name});
+		this.setState({ ui: {...this.state.ui, 'nav': name}});
 	}
 	
 	componentDidMount() {
@@ -71,7 +75,7 @@ class App extends Component {
 	}
 	
 	render() {
-		if (!this.state.authenticated) {
+		if (!this.state.data.authenticated) {
 			return (
 				<Welcome onLogin={this.handleAuth} />
 			);
@@ -95,7 +99,7 @@ class App extends Component {
 							star: <Star />,
 							planet: <Planet />,
 							satellite: <Satellite />,
-						}[this.state.nav]}
+						}[this.state.ui.nav]}
 					</section>
 				</div>
 			);
