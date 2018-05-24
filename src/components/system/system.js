@@ -14,6 +14,7 @@ export default class System extends Component {
 		this.handleAddHierarchy = this.handleAddHierarchy.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleSave = this.handleSave.bind(this);
+		this.handleGetSystems = this.handleGetSystems.bind(this);
 	}
 	
 	handleChange(event) {
@@ -40,14 +41,49 @@ export default class System extends Component {
 		});
 	}
 	
+	handleGetSystems() {
+		console.log("SYSTEM handleGetSystems");
+		const apiBaseUri = "http://localhost:3001/systems/",
+			payload = {
+				"name": this.state.systemName,
+				"hierarchies": this.state.hierarchies
+			},
+			init = {
+				//body: JSON.stringify(payload),
+				method: 'GET',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+		
+		fetch(apiBaseUri, init)
+			.then(inspectResponse)
+			.then(({status, data}) => {
+				if (status >= 200 || status <= 299) {
+					console.log(data);
+				} else {
+					this.setState({
+						status: 401,
+						message: data
+					});
+				}
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			});
+	}
+	
 	handleSave(event) {
 
 		event.preventDefault();
 		
 		const apiBaseUri = "http://localhost:3001/systems/",
 			payload = {
-				"name": this.state.systemName,
-				"hierarchies": this.state.hierarchies
+				"name": this.state.data.systemName,
+				"hierarchies": this.state.data.hierarchies
 			},
 			init = {
 				body: JSON.stringify(payload),
@@ -78,37 +114,13 @@ export default class System extends Component {
 	}
 	
 	componentDidMount() {
-		const apiBaseUri = "http://localhost:3001/systems/",
-			payload = {
-				"name": this.state.systemName,
-				"hierarchies": this.state.hierarchy
-			},
-			init = {
-				//body: JSON.stringify(payload),
-				method: 'GET',
-				mode: 'cors',
-				cache: 'default',
-				headers: {
-					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
-				}
-			};
-		
-		fetch(apiBaseUri, init)
-			.then(inspectResponse)
-			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
-					console.log(data);
-				} else {
-					this.setState({
-						status: 401,
-						message: data
-					});
-				}
-			})
-			.catch(error => {
-				console.log('There has been a problem with the fetch operation: ', error.message);
-			});
+		console.log("SYSTEM componentDidMount");
+		this.handleGetSystems();
+	}
+	
+	componentDidUpdate() {
+		console.log("SYSTEM componentDidUpdate");
+		//this.handleGetSystems();
 	}
 
 	render() {
