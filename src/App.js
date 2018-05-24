@@ -35,19 +35,26 @@ class App extends Component {
 	}
 	
 	handleSetLocalStorage() {
-		console.log("handleSetLocalStorage");
 		for (let key in this.state.data) {
 			localStorage.setItem(key, JSON.stringify(this.state.data[key]));
 		}
 	}
 	
 	handleGetLocalStorage() {
-		console.log("handleGetLocalStorage");
+		let tmpData = {};
+		
 		for (let key in this.state.data) {
 			if (localStorage.hasOwnProperty(key)) {
-				this.setState({data: { ...this.state.data, [key]: JSON.parse(localStorage.getItem(key)) }});
+				if (this.state.data[key] !== localStorage.getItem(key)) {
+					tmpData[key] = JSON.parse(localStorage.getItem(key));
+				}
 			}
 		}
+		
+		if (Object.keys(tmpData).length > 0) {
+			this.setState({ data: { ...this.state.data, ...tmpData } });
+		}
+		
 	}
 	
 	handleNav(event) {
@@ -57,12 +64,11 @@ class App extends Component {
 	}
 	
 	componentDidMount() {
-		console.log("componentDidMount");
 		this.handleGetLocalStorage();
 		
+/*
 		// add event listener to save state to localStorage
 		// when user leaves/refreshes the page
-/*
 		window.addEventListener(
 			"beforeunload",
 			this.handleSetLocalStorage.bind(this)
@@ -70,8 +76,11 @@ class App extends Component {
 */
 	}
 	
+	componentDidUpdate() {
+		this.handleSetLocalStorage();
+	}
+	
 	componentWillUnmount() {
-		console.log("componentWillUnmount");
 /*
 		window.removeEventListener(
 			"beforeunload",
@@ -100,6 +109,7 @@ class App extends Component {
 						<button name="planet" onClick={this.handleNav}>Planet</button>
 						<button name="satellite" onClick={this.handleNav}>Satellite</button>
 					</nav>
+					{(localStorage.hasOwnProperty('token')) && 
 					<section>
 						{{
 							system: <System />,
@@ -109,6 +119,7 @@ class App extends Component {
 							satellite: <Satellite />,
 						}[this.state.ui.nav]}
 					</section>
+					}
 				</div>
 			);
 		}
