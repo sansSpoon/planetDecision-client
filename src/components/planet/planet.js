@@ -7,13 +7,19 @@ export default class Planet extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			name: '',
-			radiusKM: '',
-			rotationVelocityKMH: '',
-			aphelionAU: '',
-			perihelionAU: '',
-			orbitVelocityKMS: '',
-			satellites: [],
+			data: {
+				name: '',
+				radiusKM: '',
+				rotationVelocityKMH: '',
+				aphelionAU: '',
+				perihelionAU: '',
+				orbitVelocityKMS: '',
+				satellites: [],
+			},
+			messages: {
+				status: '',
+				message: '',
+			},
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -25,18 +31,18 @@ export default class Planet extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({[name]: value});
+		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
 	handleAddSatellite(newSatellite) {
 		this.setState((prevState) => ({
-			satellites: [...prevState.satellites, newSatellite]
+			data: { ...this.state.data, satellites: [...prevState.data.satellites, newSatellite] }
 		}));
 	}
 
 	handleDeleteSatellite(id) {
 		this.setState({
-			satellites: this.state.satellites.filter((value) => value.name !== id)
+			data: { ...this.state.data, satellites: this.state.data.satellites.filter((value) => value.name !== id) }
 		});
 	}
 	
@@ -44,8 +50,8 @@ export default class Planet extends Component {
 		event.preventDefault();
 		
 		const apiBaseUri = "http://localhost:3001/planets/",
-			initGet = {
-				body: JSON.stringify(this.state),
+			init = {
+				body: JSON.stringify(this.state.data),
 				method: 'POST',
 				mode: 'cors',
 				cache: 'default',
@@ -55,15 +61,14 @@ export default class Planet extends Component {
 				}
 			};
 		
-		fetch(apiBaseUri, initGet)
+		fetch(apiBaseUri, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
-				if (status >= 200 || status <= 299) {
-					console.log(data);
+				if (status >= 200 && status <= 299) {
+					console.log(data, status);
 				} else {
 					this.setState({
-						status: 401,
-						message: data
+						messages: { ...this.state.messages, status: 401, message: data.message }
 					});
 				}
 			})
@@ -75,7 +80,7 @@ export default class Planet extends Component {
 
 	render() {
 		
-		const satellites = this.state.satellites.map((item) => {
+		const satellites = this.state.data.satellites.map((item) => {
 			return (<li key={item.name}>{item.name} <input name="deleteSatellite" value="Delete" type="button" onClick={() => this.handleDeleteSatellite(item.name)} /></li>);
 		});
 		
@@ -84,27 +89,27 @@ export default class Planet extends Component {
 				<form>
 					<div>
 						<label htmlFor="name">Name</label>
-						<input id="name" name="name" type="text" value={this.state.name} onChange={this.handleChange} />
+						<input id="name" name="name" type="text" value={this.state.data.name} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="radius">Radius (km)</label>
-						<input id="radius" name="radiusKM" type="number" value={this.state.radiusKM} onChange={this.handleChange} />
+						<input id="radius" name="radiusKM" type="number" value={this.state.data.radiusKM} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="rotation">Rotation (km/h)</label>
-						<input id="rotation" name="rotationVelocityKMH" type="number" value={this.state.rotationVelocityKMH} onChange={this.handleChange} />
+						<input id="rotation" name="rotationVelocityKMH" type="number" value={this.state.data.rotationVelocityKMH} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="aphelion">Aphelion (AU)</label>
-						<input id="aphelion" name="aphelionAU" type="number" value={this.state.aphelionAU} onChange={this.handleChange} />
+						<input id="aphelion" name="aphelionAU" type="number" value={this.state.data.aphelionAU} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="perihelion">Perihelion (AU)</label>
-						<input id="perihelion" name="perihelionAU" type="number" value={this.state.perihelionAU} onChange={this.handleChange} />
+						<input id="perihelion" name="perihelionAU" type="number" value={this.state.data.perihelionAU} onChange={this.handleChange} />
 					</div>
 					<div>
 						<label htmlFor="orbit">Orbit (km/s)</label>
-						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.orbitVelocityKMS} onChange={this.handleChange} />
+						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.data.orbitVelocityKMS} onChange={this.handleChange} />
 					</div>
 					<input name="add" type="submit" value="submit" onClick={this.handleSave} />
 				</form>

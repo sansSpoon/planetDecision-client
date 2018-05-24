@@ -1,7 +1,7 @@
 export function inspectResponse(response) {
-	return response.json().then((json) => ({
+	return response.json().then((data) => ({
 			status: response.status,
-			data: json,
+			data,
 		})
 	);
 }
