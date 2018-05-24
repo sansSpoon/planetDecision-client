@@ -68,7 +68,7 @@ export default class Planet extends Component {
 					console.log(data, status);
 				} else {
 					this.setState({
-						messages: { ...this.state.messages, status: 401, message: data.message }
+						messages: { ...this.state.messages, status: status, message: data.message }
 					});
 				}
 			})
