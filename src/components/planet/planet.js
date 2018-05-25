@@ -39,7 +39,7 @@ export default class Planet extends Component {
 		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
-	handleActive(id) {
+	handleActivePlanet(id) {
 		if(id) {
 			console.log(id);
 			this.setState(
@@ -74,6 +74,19 @@ export default class Planet extends Component {
 						planets: [],
 					},
 				}
+			);
+		}
+	}
+	
+	handleActiveSatellite(id) {
+		console.log(id);
+		if(id) {
+			this.setState(
+				{ ui: { ...this.state.ui, currentSatellite: id, } }
+			);
+		} else {
+			this.setState(
+				{ ui: { ...this.state.ui, currentSatellite: '', } }
 			);
 		}
 	}
@@ -151,8 +164,6 @@ export default class Planet extends Component {
 	handleSave(event) {
 		event.preventDefault();
 		
-		console.log(this.state.ui.currentPlanet);
-		
 		const apiBaseUri = "http://localhost:3001/planets/",
 			init = {
 				body: JSON.stringify(this.state.data),
@@ -170,7 +181,7 @@ export default class Planet extends Component {
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
 					console.log(data, status);
-					this.handleActive();
+					this.handleActivePlanet();
 					this.handleGetPlanets();
 				} else {
 					this.setState({
@@ -182,7 +193,6 @@ export default class Planet extends Component {
 				console.log('There has been a problem with the fetch operation: ', error.message);
 			});
 	}
-	
 	
 	componentDidMount() {
 		console.log("PLANETS componentDidMount");
@@ -198,14 +208,19 @@ export default class Planet extends Component {
 		const planets = this.state.ui.planets.map((item) => {
 			return (
 				<li key={item._id}>{item.name}
-					<input name="editPlanet" value="Edit" type="button" onClick={() => this.handleActive(item)} />
+					<input name="editPlanet" value="Edit" type="button" onClick={() => this.handleActivePlanet(item)} />
 					<input name="deletePlanet" value="Delete" type="button" onClick={() => this.handleDeletePlanet(item._id)} />
 				</li>
 			);
 		});
 		
 		const satellites = this.state.data.satellites.map((item) => {
-			return (<li key={item.name}>{item.name} <input name="deleteSatellite" value="Delete" type="button" onClick={() => this.handleDeleteSatellite(item.name)} /></li>);
+			return (
+				<li key={item.name}>{item.name}
+					<input name="editPlanet" value="Edit" type="button" onClick={() => this.handleActiveSatellite(item)} />
+					<input name="deleteSatellite" value="Delete" type="button" onClick={() => this.handleDeleteSatellite(item.name)} />
+				</li>
+			);
 		});
 		
 		return (
@@ -240,7 +255,7 @@ export default class Planet extends Component {
 				</form>
 				
 				<div>
-					<Satellite onSave={this.handleAddSatellite} />
+					<Satellite onSave={this.handleAddSatellite} currentSatellite={this.state.ui.currentSatellite} />
 				</div>
 				<div>
 					<ul>{ satellites }</ul>

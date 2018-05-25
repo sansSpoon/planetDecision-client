@@ -12,6 +12,7 @@ export default class Satellite extends Component {
 				apoapsisAU: '',
 				periapsisAU: '',
 				orbitVelocityKMS: '',
+				_id: '',
 			},
 		};
 		
@@ -37,6 +38,7 @@ export default class Satellite extends Component {
 						apoapsisAU: id.apoapsisAU,
 						periapsisAU: id.periapsisAU,
 						orbitVelocityKMS: id.orbitVelocityKMS,
+						_id: id._id,
 					},
 				}
 			);
@@ -49,6 +51,7 @@ export default class Satellite extends Component {
 						apoapsisAU: '',
 						periapsisAU: '',
 						orbitVelocityKMS: '',
+						_id: '',
 					},
 				}
 			);
@@ -59,6 +62,17 @@ export default class Satellite extends Component {
 		this.props.onSave(this.state.data);
 		this.handleActive();
 	}
+	
+	componentDidUpdate() {
+	}
+	
+	static getDerivedStateFromProps(props, state) {
+		console.log('SATELLITE getDerivedStateFromProps');
+		if(props.currentSatellite) {
+			return {data: props.currentSatellite};
+		}
+		return null;
+  }
 
 	render() {
 		return (
