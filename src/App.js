@@ -12,7 +12,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			data: {
+			auth: {
 				authenticated: false,
 				authUser: '',
 				token: '',
@@ -30,29 +30,29 @@ class App extends Component {
 		this.handleAuth = this.handleAuth.bind(this);
 	}
 	
-	handleAuth(auth) {
-		this.setState({data: {...this.state.data, ...auth }});
+	handleAuth(user) {
+		this.setState({auth: {...this.state.auth, ...user }});
 	}
 	
 	handleSetLocalStorage() {
-		for (let key in this.state.data) {
-			localStorage.setItem(key, JSON.stringify(this.state.data[key]));
+		for (let key in this.state.auth) {
+			localStorage.setItem(key, JSON.stringify(this.state.auth[key]));
 		}
 	}
 	
 	handleGetLocalStorage() {
-		let tmpData = {};
+		let tmpAuth = {};
 		
-		for (let key in this.state.data) {
+		for (let key in this.state.auth) {
 			if (localStorage.hasOwnProperty(key)) {
-				if (this.state.data[key] !== localStorage.getItem(key)) {
-					tmpData[key] = JSON.parse(localStorage.getItem(key));
+				if (this.state.auth[key] !== localStorage.getItem(key)) {
+					tmpAuth[key] = JSON.parse(localStorage.getItem(key));
 				}
 			}
 		}
 		
-		if (Object.keys(tmpData).length > 0) {
-			this.setState({ data: { ...this.state.data, ...tmpData } });
+		if (Object.keys(tmpAuth).length > 0) {
+			this.setState({ auth: { ...this.state.auth, ...tmpAuth } });
 		}
 		
 	}
@@ -92,7 +92,7 @@ class App extends Component {
 	}
 	
 	render() {
-		if (!this.state.data.authenticated) {
+		if (!this.state.auth.authenticated) {
 			return (
 				<Welcome onLogin={this.handleAuth} />
 			);
