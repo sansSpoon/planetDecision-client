@@ -9,7 +9,6 @@ export default class System extends Component {
 			data: {
 				systemName: '',
 				hierarchyName: '',
-				systems: [],
 				hierarchies: [],
 			},
 			messages: {
@@ -18,6 +17,7 @@ export default class System extends Component {
 			},
 			ui: {
 				currentSystem: '',
+				systems: [],
 			}
 		};
 		
@@ -104,7 +104,7 @@ export default class System extends Component {
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
 					this.setState(
-						{ data: { ...this.state.data, systems: data } }
+						{ ui: { ...this.state.ui, systems: data } }
 					);
 				} else {
 					this.setState(
@@ -171,7 +171,7 @@ export default class System extends Component {
 
 	render() {
 		
-		const systems = this.state.data.systems.map((item) => {
+		const systems = this.state.ui.systems.map((item) => {
 			return (
 				<li key={item._id}>{item.name}
 					<input name="editSystem" value="Edit" type="button" onClick={() => this.handleActiveSystem(item)} />
