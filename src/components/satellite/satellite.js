@@ -26,12 +26,44 @@ export default class Satellite extends Component {
 		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
+	handleActive(id) {
+		if(id) {
+			console.log(id);
+			this.setState(
+				{ data: { ...this.state.data,
+						name: id.name,
+						radiusKM: id.radiusKM,
+						rotationVelocityKMH: id.rotationVelocityKMH,
+						apoapsisAU: id.apoapsisAU,
+						periapsisAU: id.periapsisAU,
+						orbitVelocityKMS: id.orbitVelocityKMS,
+					},
+				}
+			);
+		} else {
+			this.setState(
+				{ data: { ...this.state.data,
+						name: '',
+						radiusKM: '',
+						rotationVelocityKMH: '',
+						apoapsisAU: '',
+						periapsisAU: '',
+						orbitVelocityKMS: '',
+					},
+				}
+			);
+		}
+	}
+	
 	handleSave(event) {
-		this.props.onSave(this.state.data)
+		this.props.onSave(this.state.data);
+		this.handleActive();
 	}
 
 	render() {
 		return (
+			<React.Fragment>
+			<h3>Satellite</h3>
 			<form>
 				<div>
 					<label htmlFor="name">Name</label>
@@ -59,6 +91,7 @@ export default class Satellite extends Component {
 				</div>
 				<input name="add" type="button" value="add" onClick={this.handleSave} />
 			</form>
+			</React.Fragment>
 		);
 	}
 

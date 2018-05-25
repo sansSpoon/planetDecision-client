@@ -20,6 +20,11 @@ export default class Planet extends Component {
 				status: '',
 				message: '',
 			},
+			ui: {
+				currentPlanet: '',
+				currentSatellite: '',
+				planets: [],
+			}
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -32,6 +37,103 @@ export default class Planet extends Component {
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
 		this.setState({data: {...this.state.data, [name]: value }});
+	}
+	
+	handleActive(id) {
+		if(id) {
+			console.log(id);
+			this.setState(
+				{ data: { ...this.state.data,
+						name: id.name,
+						radiusKM: id.radiusKM,
+						rotationVelocityKMH: id.rotationVelocityKMH,
+						aphelionAU: id.aphelionAU,
+						perihelionAU: id.perihelionAU,
+						orbitVelocityKMS: id.orbitVelocityKMS,
+						satellites: id.satellites,
+					},
+					ui: { ...this.state.ui,
+						currentPlanet: id
+					},
+				}
+			);
+		} else {
+			this.setState(
+				{ data: { ...this.state.data,
+						name: '',
+						radiusKM: '',
+						rotationVelocityKMH: '',
+						aphelionAU: '',
+						perihelionAU: '',
+						orbitVelocityKMS: '',
+						satellites: [],
+					},
+					ui: { ...this.state.ui,
+						currentPlanet: '',
+						currentSatellite: '',
+						planets: [],
+					}
+				}
+			);
+		}
+	}
+	
+	handleGetPlanets() {
+		console.log("PLANETS handleGetPlanets");
+		const apiBaseUri = "http://localhost:3001/planets/",
+			init = {
+				method: 'GET',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+		
+		fetch(apiBaseUri, init)
+			.then(inspectResponse)
+			.then(({status, data}) => {
+				if (status >= 200 && status <= 299) {
+					this.setState(
+						{ ui: { ...this.state.ui, planets: data } }
+					);
+				} else {
+					this.setState(
+						{ messages: { ...this.state.messages, status: 401, message: data.message } }
+					);
+				}
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			}); 
+	}
+	
+	handleDeletePlanet(id) {
+	
+		const apiBaseUri = "http://localhost:3001/planets/",
+			init = {
+				method: 'DELETE',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+		
+		fetch(`${apiBaseUri}${id}`, init)
+			.then((response) => {
+				if(!response.ok) {
+					this.setState(
+						{	messages: { ...this.state.messages, status: response.status, message: "Delete failed." } }
+					);
+				}
+				this.handleGetPlanets();
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			});
 	}
 	
 	handleAddSatellite(newSatellite) {
@@ -66,6 +168,8 @@ export default class Planet extends Component {
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
 					console.log(data, status);
+					this.handleActive();
+					this.handleGetPlanets();
 				} else {
 					this.setState({
 						messages: { ...this.state.messages, status: status, message: data.message }
@@ -76,9 +180,27 @@ export default class Planet extends Component {
 				console.log('There has been a problem with the fetch operation: ', error.message);
 			});
 	}
-
+	
+	
+	componentDidMount() {
+		console.log("PLANETS componentDidMount");
+		this.handleGetPlanets();
+	}
+	
+	componentWillUpdate() {
+		
+	}
 
 	render() {
+		
+		const planets = this.state.ui.planets.map((item) => {
+			return (
+				<li key={item._id}>{item.name}
+					<input name="editPlanet" value="Edit" type="button" onClick={() => this.handleActive(item)} />
+					<input name="deletePlanet" value="Delete" type="button" onClick={() => this.handleDeletePlanet(item._id)} />
+				</li>
+			);
+		});
 		
 		const satellites = this.state.data.satellites.map((item) => {
 			return (<li key={item.name}>{item.name} <input name="deleteSatellite" value="Delete" type="button" onClick={() => this.handleDeleteSatellite(item.name)} /></li>);
@@ -86,6 +208,7 @@ export default class Planet extends Component {
 		
 		return (
 			<React.Fragment>
+				<h3>Planet</h3>
 				<form>
 					<div>
 						<label htmlFor="name">Name</label>
@@ -111,13 +234,17 @@ export default class Planet extends Component {
 						<label htmlFor="orbit">Orbit (km/s)</label>
 						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.data.orbitVelocityKMS} onChange={this.handleChange} />
 					</div>
-					<input name="add" type="submit" value="submit" onClick={this.handleSave} />
+					<input name="save" value={(this.state.ui.currentPlanet)?"Update":"Save"} type="submit" onClick={this.handleSave} />
 				</form>
+				
 				<div>
 					<Satellite onSave={this.handleAddSatellite} />
 				</div>
 				<div>
 					<ul>{ satellites }</ul>
+				</div>
+				<div>
+					<ul>{ planets }</ul>
 				</div>
 			</React.Fragment>
 		);
