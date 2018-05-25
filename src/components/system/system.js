@@ -16,6 +16,9 @@ export default class System extends Component {
 				status: '',
 				message: '',
 			},
+			ui: {
+				currentSystem: '',
+			}
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -48,6 +51,14 @@ export default class System extends Component {
 		);
 	}
 	
+	handleActiveSystem(id) {
+		this.setState(
+			{ ui: { ...this.state.ui, currentSystem: id._id },
+				data: { ...this.state.data, systemName: id.name, hierarchies: id.hierarchies}
+			}
+		);
+	}
+	
 	handleDeleteSystem(id) {
 	
 		const apiBaseUri = "http://localhost:3001/systems/",
@@ -70,27 +81,9 @@ export default class System extends Component {
 				}
 				this.handleGetSystems();
 			})
-			/*
-.then(({status, data}) => {
-				if (status >= 200 && status <= 299) {
-					console.log(data, status);
-				} else {
-					
-				}
-			})
-*/
 			.catch(error => {
 				console.log('There has been a problem with the fetch operation: ', error.message);
 			});
-			
-	
-	
-	
-		/*
-this.setState(
-			{ data: { ...this.state.data, systems: this.state.data.systems.filter((value) => value._id !== id) } }
-		);
-*/
 	}
 	
 	handleGetSystems() {
@@ -135,7 +128,7 @@ this.setState(
 			},
 			init = {
 				body: JSON.stringify(payload),
-				method: 'POST',
+				method: this.state.ui.currentSystem ? 'PUT' : 'POST',
 				mode: 'cors',
 				cache: 'default',
 				headers: {
@@ -144,12 +137,16 @@ this.setState(
 				}
 			};
 		
-		fetch(apiBaseUri, init)
+		fetch(`${apiBaseUri}${this.state.ui.currentSystem}`, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
 					console.log(data, status);
-					this.setState({ data: { ...this.state.data, systemName: '', hierarchyName: '', hierarchies: [] } });
+					this.setState(
+						{ data: { ...this.state.data, systemName: '', hierarchyName: '', hierarchies: [] },
+						  ui: { ...this.state.ui, currentSystem: '' }
+						}
+					);
 					
 					this.handleGetSystems();
 				} else {
@@ -175,7 +172,12 @@ this.setState(
 	render() {
 		
 		const systems = this.state.data.systems.map((item) => {
-			return (<li key={item._id}>{item.name} <input name="deleteSystem" value="Delete" type="button" onClick={() => this.handleDeleteSystem(item._id)} /></li>);
+			return (
+				<li key={item._id}>{item.name}
+					<input name="editSystem" value="Edit" type="button" onClick={() => this.handleActiveSystem(item)} />
+					<input name="deleteSystem" value="Delete" type="button" onClick={() => this.handleDeleteSystem(item._id)} />
+				</li>
+			);
 		});
 		
 		const hierarchies = this.state.data.hierarchies.map((item) => {
@@ -197,7 +199,7 @@ this.setState(
 					<div>
 						<ul>{ hierarchies }</ul>
 					</div>
-					<input name="save" value="Save" type="submit" onClick={this.handleSaveSystem} />
+					<input name="save" value={(this.state.ui.currentSystem)?"Update":"Save"} type="submit" onClick={this.handleSaveSystem} />
 				</form>
 				<div>
 					<ul>{ systems }</ul>
