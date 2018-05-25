@@ -53,7 +53,7 @@ export default class Planet extends Component {
 						satellites: id.satellites,
 					},
 					ui: { ...this.state.ui,
-						currentPlanet: id
+						currentPlanet: id,
 					},
 				}
 			);
@@ -72,7 +72,7 @@ export default class Planet extends Component {
 						currentPlanet: '',
 						currentSatellite: '',
 						planets: [],
-					}
+					},
 				}
 			);
 		}
@@ -151,10 +151,12 @@ export default class Planet extends Component {
 	handleSave(event) {
 		event.preventDefault();
 		
+		console.log(this.state.ui.currentPlanet);
+		
 		const apiBaseUri = "http://localhost:3001/planets/",
 			init = {
 				body: JSON.stringify(this.state.data),
-				method: 'POST',
+				method: this.state.ui.currentPlanet ? 'PUT' : 'POST',
 				mode: 'cors',
 				cache: 'default',
 				headers: {
@@ -163,7 +165,7 @@ export default class Planet extends Component {
 				}
 			};
 		
-		fetch(apiBaseUri, init)
+		fetch(`${apiBaseUri}${this.state.ui.currentPlanet._id}`, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
