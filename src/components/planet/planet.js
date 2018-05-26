@@ -149,10 +149,47 @@ export default class Planet extends Component {
 			});
 	}
 	
-	handleAddSatellite(newSatellite) {
+	handleAddSatellite(satellite) {
+		if(satellite._id) {
+			
+			const prevSatellite = this.state.data.satellites
+			console.dir(`prevSatellite: ${prevSatellite}`);
+			console.dir(prevSatellite);
+			
+			const index = this.state.data.satellites.findIndex((sat) => sat._id === satellite._id);
+			console.log(index);
+			
+			console.log(`found satellite: ${prevSatellite[index]}`);
+			console.log(prevSatellite[index]);
+			
+			
+			const newSat = this.state.data.satellites.splice(index, 1, satellite);
+			
+			console.log(`new sat: ${newSat}`);
+			console.log(newSat);
+			
+			console.log(`prevSatellite: ${prevSatellite}`);
+			console.log(prevSatellite);
+			
+/*
+			this.setState((prevState) => ({
+				data: { ...this.state.data, satellites: [...prevState.data.satellites, satellite] }
+			}));
+*/
+			
+/*
+			if(sat._id === satellite._id) {
+					console.log("found sat in array");
+					console.log(sat);
+				}
+*/
+
+		}
+/*
 		this.setState((prevState) => ({
-			data: { ...this.state.data, satellites: [...prevState.data.satellites, newSatellite] }
+			data: { ...this.state.data, satellites: [...prevState.data.satellites, satellite] }
 		}));
+*/
 	}
 
 	handleDeleteSatellite(id) {
@@ -163,6 +200,8 @@ export default class Planet extends Component {
 	
 	handleSave(event) {
 		event.preventDefault();
+		
+		console.log(this.state.ui.currentPlanet);
 		
 		const apiBaseUri = "http://localhost:3001/planets/",
 			init = {
@@ -176,7 +215,7 @@ export default class Planet extends Component {
 				}
 			};
 		
-		fetch(`${apiBaseUri}${this.state.ui.currentPlanet._id}`, init)
+		fetch(`${apiBaseUri}${this.state.ui.currentPlanet ? this.state.ui.currentPlanet._id : ''}`, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {

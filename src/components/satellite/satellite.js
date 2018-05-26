@@ -59,15 +59,17 @@ export default class Satellite extends Component {
 	}
 	
 	handleSave(event) {
-		this.props.onSave(this.state.data);
+		let data = this.state.data;
+		console.log("data from sat");
+		console.log(data);
+		if (!this.props.currentSatellite) {
+			delete data._id;
+		}
+		this.props.onSave(data);
 		this.handleActive();
 	}
 	
-	componentDidUpdate() {
-	}
-	
 	static getDerivedStateFromProps(props, state) {
-		console.log('SATELLITE getDerivedStateFromProps');
 		if(props.currentSatellite) {
 			return {data: props.currentSatellite};
 		}
