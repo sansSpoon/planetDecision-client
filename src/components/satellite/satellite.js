@@ -105,7 +105,8 @@ export default class Satellite extends Component {
 					<label htmlFor="orbit">Orbit (km/s)</label>
 					<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.data.orbitVelocityKMS} onChange={this.handleChange} />
 				</div>
-				<input name="add" type="button" value="add" onClick={this.handleSave} />
+				<input name="add" type="button" value={(this.props.currentSatellite)?"Update":"Add"} onClick={this.handleSave} />
+				<input name="cancel" type="button" value="Cancel" onClick={() => this.handleActive()} />
 			</form>
 			</React.Fragment>
 		);

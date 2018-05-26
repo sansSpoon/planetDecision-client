@@ -71,7 +71,7 @@ export default class Planet extends Component {
 					ui: { ...this.state.ui,
 						currentPlanet: '',
 						currentSatellite: '',
-						planets: [],
+						//planets: [],
 					},
 				}
 			);
@@ -113,7 +113,7 @@ export default class Planet extends Component {
 					);
 				} else {
 					this.setState(
-						{ messages: { ...this.state.messages, status: 401, message: data.message } }
+						{ messages: { ...this.state.messages, status: status, message: data.message } }
 					);
 				}
 			})
@@ -151,45 +151,18 @@ export default class Planet extends Component {
 	
 	handleAddSatellite(satellite) {
 		if(satellite._id) {
-			
-			const prevSatellite = this.state.data.satellites
-			console.dir(`prevSatellite: ${prevSatellite}`);
-			console.dir(prevSatellite);
-			
+			const tempSatellites = this.state.data.satellites
 			const index = this.state.data.satellites.findIndex((sat) => sat._id === satellite._id);
-			console.log(index);
+			tempSatellites.splice(index, 1, satellite);
 			
-			console.log(`found satellite: ${prevSatellite[index]}`);
-			console.log(prevSatellite[index]);
-			
-			
-			const newSat = this.state.data.satellites.splice(index, 1, satellite);
-			
-			console.log(`new sat: ${newSat}`);
-			console.log(newSat);
-			
-			console.log(`prevSatellite: ${prevSatellite}`);
-			console.log(prevSatellite);
-			
-/*
+			this.setState(
+				{	data: { ...this.state.data, satellites: tempSatellites }}
+			);
+		} else {
 			this.setState((prevState) => ({
 				data: { ...this.state.data, satellites: [...prevState.data.satellites, satellite] }
 			}));
-*/
-			
-/*
-			if(sat._id === satellite._id) {
-					console.log("found sat in array");
-					console.log(sat);
-				}
-*/
-
 		}
-/*
-		this.setState((prevState) => ({
-			data: { ...this.state.data, satellites: [...prevState.data.satellites, satellite] }
-		}));
-*/
 	}
 
 	handleDeleteSatellite(id) {
@@ -291,6 +264,7 @@ export default class Planet extends Component {
 						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.data.orbitVelocityKMS} onChange={this.handleChange} />
 					</div>
 					<input name="save" value={(this.state.ui.currentPlanet)?"Update":"Save"} type="submit" onClick={this.handleSave} />
+					<input name="cancel" type="button" value="Cancel" onClick={() => this.handleActivePlanet()} />
 				</form>
 				
 				<div>
