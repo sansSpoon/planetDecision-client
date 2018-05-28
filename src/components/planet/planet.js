@@ -122,6 +122,10 @@ export default class Planet extends Component {
 			}); 
 	}
 	
+	handleAddPlanet(id) {
+		this.props.addPlanet(id);
+	}
+	
 	handleDeletePlanet(id) {
 	
 		const apiBaseUri = "http://localhost:3001/planets/",
@@ -222,6 +226,7 @@ export default class Planet extends Component {
 				<li key={item._id}>{item.name}
 					<input name="editPlanet" value="Edit" type="button" onClick={() => this.handleActivePlanet(item)} />
 					<input name="deletePlanet" value="Delete" type="button" onClick={() => this.handleDeletePlanet(item._id)} />
+					<input name="add" value="Add to Hierarchy" type="button" onClick={() => this.handleAddPlanet(item._id)} />
 				</li>
 			);
 		});

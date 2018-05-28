@@ -17,6 +17,7 @@ export default class System extends Component {
 			},
 			ui: {
 				currentSystem: '',
+				currentHierarchy: '',
 				systems: [],
 			}
 		};
