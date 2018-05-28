@@ -9,6 +9,7 @@ export default class Hierarchy extends Component {
 		super(props);
 		this.state = {
 			data: {
+				_id: '',
 				name: '',
 				star: '',
 				planets: [],
@@ -26,6 +27,31 @@ export default class Hierarchy extends Component {
 		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
+	handleActive(id) {
+		if(id) {
+			console.log(id);
+			this.setState(
+				{ data: { ...this.state.data,
+						name: id.name,
+						star: id.star,
+						planets: id.planets,
+						_id: id._id,
+					},
+				}
+			);
+		} else {
+			this.setState(
+				{ data: { ...this.state.data,
+						name: '',
+						star: '',
+						planets: '',
+						_id: '',
+					},
+				}
+			);
+		}
+	}
+
 	handleAddStar(id) {
 		this.setState(
 			{ data: { ...this.state.data, star: id } }
@@ -49,13 +75,29 @@ export default class Hierarchy extends Component {
 			}));
 		//}
 	}
+	
+	handleAddHierarchy() {
+		let data = this.state.data;
 
-
+		if (!this.props.currentHierarchy) {
+			delete data._id;
+		}
+		this.props.addHierarchy(data);
+		this.handleActive();
+	}
+	
+	static getDerivedStateFromProps(props, state) {
+		if(props.currentHierarchy) {
+			return {data: props.currentSatellite};
+		}
+		return null;
+  }
 
 	render() {
 		
 		return (
 			<React.Fragment>
+			<h3>Hierarchy</h3>
 			<form>
 				<div>
 					<label htmlFor="name">Name</label>
@@ -69,6 +111,7 @@ export default class Hierarchy extends Component {
 					<label htmlFor="planets">Planets</label>
 					<input id="planets" name="planets" type="text" value={this.state.data.planets} onChange={this.handleChange} />
 				</div>
+				<input name="addHierarchy" value="Add Hierarchy" type="button" onClick={this.handleAddHierarchy} />
 			</form>
 			<Star addStar={this.handleAddStar}/>
 			<Planet  addPlanet={this.handleAddPlanet}/>

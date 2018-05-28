@@ -156,7 +156,7 @@ export default class Planet extends Component {
 	handleAddSatellite(satellite) {
 		if(satellite._id) {
 			const tempSatellites = this.state.data.satellites
-			const index = this.state.data.satellites.findIndex((sat) => sat._id === satellite._id);
+			const index = tempSatellites.findIndex((sat) => sat._id === satellite._id);
 			tempSatellites.splice(index, 1, satellite);
 			
 			this.setState(
