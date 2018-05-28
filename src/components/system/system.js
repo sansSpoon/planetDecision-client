@@ -100,8 +100,17 @@ export default class System extends Component {
 		}
 	}
 	
-	handleActiveHierarchy() {
-		
+	handleActiveHierarchy(id) {
+		console.log(id);
+		if(id) {
+			this.setState(
+				{ ui: { ...this.state.ui, currentHierarchy: id, } }
+			);
+		} else {
+			this.setState(
+				{ ui: { ...this.state.ui, currentHierarchy: '', } }
+			);
+		}
 	}
 	
 	handleDeleteSystem(id) {

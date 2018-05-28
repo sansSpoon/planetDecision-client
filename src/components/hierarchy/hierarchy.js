@@ -16,8 +16,10 @@ export default class Hierarchy extends Component {
 			},
 		};
 		
+		this.handleChange = this.handleChange.bind(this);
 		this.handleAddStar = this.handleAddStar.bind(this);
 		this.handleAddPlanet = this.handleAddPlanet.bind(this);
+		this.handleAddHierarchy = this.handleAddHierarchy.bind(this);
 	}
 	
 	handleChange(event) {
@@ -87,10 +89,16 @@ export default class Hierarchy extends Component {
 	}
 	
 	static getDerivedStateFromProps(props, state) {
+		console.log('got current hierarchy update');
+		console.log(props.currentHierarchy);
 		if(props.currentHierarchy) {
-			return {data: props.currentSatellite};
+			return {data: props.currentHierarchy};
 		}
 		return null;
+  }
+  
+  componentDidUpdate() {
+	  console.log('HIERARCHY componentDidUpdate');
   }
 
 	render() {
@@ -111,7 +119,7 @@ export default class Hierarchy extends Component {
 					<label htmlFor="planets">Planets</label>
 					<input id="planets" name="planets" type="text" value={this.state.data.planets} onChange={this.handleChange} />
 				</div>
-				<input name="addHierarchy" value="Add Hierarchy" type="button" onClick={this.handleAddHierarchy} />
+				<input name="addHierarchy" type="button" value={(this.props.currentHierarchy)?"Update":"Add"} onClick={this.handleAddHierarchy} />
 			</form>
 			<Star addStar={this.handleAddStar}/>
 			<Planet  addPlanet={this.handleAddPlanet}/>
