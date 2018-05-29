@@ -9,7 +9,7 @@ export default class System extends Component {
 		this.state = {
 			data: {
 				systemName: '',
-				hierarchyName: '',
+				//hierarchyName: '',
 				hierarchies: [],
 			},
 			messages: {
@@ -37,17 +37,6 @@ export default class System extends Component {
 	}
 	
 	handleAddHierarchy(hierarchy) {
-		
-/*
-		const newHierarchy = {
-			name: this.state.data.hierarchyName,
-			//star: '',
-			//planets: [],
-		};
-		this.setState((prevState) => (
-			{ data: { ...this.state.data, hierarchies: [...prevState.data.hierarchies, newHierarchy] } }
-		));
-*/
 
 		if(hierarchy._id) {
 			const tempHierarchy = this.state.data.hierarchies
@@ -215,12 +204,7 @@ export default class System extends Component {
 	}
 	
 	componentDidMount() {
-
 		this.handleGetSystems();
-	}
-	
-	componentDidUpdate() {
-		//console.log("SYSTEM componentDidUpdate");
 	}
 
 	render() {
@@ -230,15 +214,6 @@ export default class System extends Component {
 				<li key={item._id}>{item.name}
 					<input name="editSystem" value="Edit" type="button" onClick={() => this.handleActiveSystem(item)} />
 					<input name="deleteSystem" value="Delete" type="button" onClick={() => this.handleDeleteSystem(item._id)} />
-				</li>
-			);
-		});
-		
-		const hierarchies = this.state.data.hierarchies.map((item) => {
-			return (
-				<li key={item.name}>{item.name}
-					<input name="editHierarchy" value="Edit" type="button" onClick={() => this.handleActiveHierarchy(item)} />
-					<input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item._id)} />
 				</li>
 			);
 		});
@@ -256,23 +231,11 @@ export default class System extends Component {
 			<div>
 				<ul>{ systems }</ul>
 			</div>
-{/*
-				<div>
-					<label htmlFor="hierarchy">Hierarchy</label>
-					<input id="hierarchyName" name="hierarchyName" type="text" value={this.state.data.hierarchyName} onChange={this.handleChange} />
-				</div>
-*/}
-
-				<Hierarchy
-					addHierarchy={this.handleAddHierarchy}
-					currentHierarchy={this.state.ui.currentHierarchy}
-					hierarchies={this.state.ui.currentSystem.hierarchies}
-				/>
-				
-				<div>
-					<ul>{ hierarchies }</ul>
-				</div>
-				
+			<Hierarchy
+				addHierarchy={this.handleAddHierarchy}
+				currentHierarchy={this.state.ui.currentHierarchy}
+				hierarchies={this.state.data.hierarchies}
+			/>
 			</React.Fragment>
 		);
 		

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { inspectResponse } from '../utilities/utilities';
 import Star from '../star/star';
 import Planet from '../planet/planet';
 
@@ -32,7 +31,7 @@ export default class Hierarchy extends Component {
 		this.setState({data: {...this.state.data, [name]: value }});
 	}
 	
-	handleActive(id) {
+	handleActiveHierarchy(id) {
 		if(id) {
 			this.setState(
 				{ data: { ...this.state.data,
@@ -87,17 +86,17 @@ export default class Hierarchy extends Component {
 			delete data._id;
 		}
 		this.props.addHierarchy(data);
-		this.handleActive();
+		this.handleActiveHierarchy();
 	}
 	
 	static getDerivedStateFromProps(props, state) {
-		
+		console.log(' HHHH getDerivedStateFromProps');
 		let update = {}
 		
 		if(props.currentHierarchy) {
 			update = Object.assign(update, {data: props.currentHierarchy});
 		}
-		if(props.currentHierarchy) {
+		if(props.hierarchies) {
 			update = Object.assign(update, {ui: props.hierarchies});
 		}
 		
@@ -115,7 +114,7 @@ export default class Hierarchy extends Component {
 
 	render() {
 		
-		let hierarchies = (this.props.hierarchies || []).map((item) => {
+		const hierarchies = (this.props.hierarchies || []).map((item) => {
 			return (
 				<li key={item.name}>{item.name}
 					<input name="editHierarchy" value="Edit" type="button" onClick={() => this.handleActiveHierarchy(item)} />
