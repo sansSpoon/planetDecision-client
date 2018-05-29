@@ -25,6 +25,7 @@ export default class System extends Component {
 		
 		this.handleChange = this.handleChange.bind(this);
 		this.handleAddHierarchy = this.handleAddHierarchy.bind(this);
+		this.handleDeleteHierarchy = this.handleDeleteHierarchy.bind(this);
 		this.handleSaveSystem = this.handleSaveSystem.bind(this);
 		this.handleGetSystems = this.handleGetSystems.bind(this);
 	}
@@ -59,7 +60,7 @@ export default class System extends Component {
 	
 	handleDeleteHierarchy(id) {
 		this.setState(
-			{ data: { ...this.state.data, hierarchies: this.state.data.hierarchies.filter((value) => value.name !== id) } }
+			{ data: { ...this.state.data, hierarchies: this.state.data.hierarchies.filter((value) => value._id !== id) } }
 		);
 	}
 	
@@ -179,8 +180,8 @@ export default class System extends Component {
 					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
 				}
 			};
-		
-		fetch(`${apiBaseUri}${this.state.ui.currentSystem._id}`, init)
+			
+		fetch(`${apiBaseUri}${this.state.ui.currentSystem ? this.state.ui.currentSystem._id : ''}`, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
@@ -233,7 +234,7 @@ export default class System extends Component {
 			</div>
 			<Hierarchy
 				addHierarchy={this.handleAddHierarchy}
-				currentHierarchy={this.state.ui.currentHierarchy}
+				deleteHierarchy={this.handleDeleteHierarchy}
 				hierarchies={this.state.data.hierarchies}
 			/>
 			</React.Fragment>

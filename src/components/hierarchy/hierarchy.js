@@ -82,35 +82,17 @@ export default class Hierarchy extends Component {
 	handleAddHierarchy() {
 		let data = this.state.data;
 
-		if (!this.props.currentHierarchy) {
+		if (!data._id) {
 			delete data._id;
 		}
 		this.props.addHierarchy(data);
 		this.handleActiveHierarchy();
 	}
 	
-	static getDerivedStateFromProps(props, state) {
-		console.log(' HHHH getDerivedStateFromProps');
-		let update = {}
-		
-		if(props.currentHierarchy) {
-			update = Object.assign(update, {data: props.currentHierarchy});
-		}
-		if(props.hierarchies) {
-			update = Object.assign(update, {ui: props.hierarchies});
-		}
-		
-		if(Object.entries(update).length > 0) {
-
-			return update;
-		} else {
-			return null;
-		}
-  }
-  
-  componentDidUpdate() {
-
-  }
+	handleDeleteHierarchy(id) {
+		this.props.deleteHierarchy(id);
+		this.handleActiveHierarchy();
+	}
 
 	render() {
 		
@@ -139,7 +121,7 @@ export default class Hierarchy extends Component {
 					<label htmlFor="planets">Planets</label>
 					<input id="planets" name="planets" type="text" value={this.state.data.planets} onChange={this.handleChange} />
 				</div>
-				<input name="addHierarchy" type="button" value={(this.props.currentHierarchy)?"Update":"Add"} onClick={this.handleAddHierarchy} />
+				<input name="addHierarchy" type="button" value={(this.state.data._id)?"Update":"Add"} onClick={this.handleAddHierarchy} />
 			</form>
 			<div>
 				<ul> { hierarchies } </ul>
