@@ -78,7 +78,7 @@ export default class System extends Component {
 		if(id) {
 			this.setState(
 				{ ui: { ...this.state.ui,
-						currentSystem: id._id,
+						currentSystem: id,
 					},
 					data: { ...this.state.data,
 						systemName: id.name,
@@ -101,7 +101,7 @@ export default class System extends Component {
 	}
 	
 	handleActiveHierarchy(id) {
-		console.log(id);
+
 		if(id) {
 			this.setState(
 				{ ui: { ...this.state.ui, currentHierarchy: id, } }
@@ -141,7 +141,7 @@ export default class System extends Component {
 	}
 	
 	handleGetSystems() {
-		console.log("SYSTEM handleGetSystems");
+
 		const apiBaseUri = "http://localhost:3001/systems/",
 			init = {
 				method: 'GET',
@@ -191,11 +191,11 @@ export default class System extends Component {
 				}
 			};
 		
-		fetch(`${apiBaseUri}${this.state.ui.currentSystem}`, init)
+		fetch(`${apiBaseUri}${this.state.ui.currentSystem._id}`, init)
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
-					console.log(data, status);
+
 					this.setState(
 						{ data: { ...this.state.data, systemName: '', hierarchyName: '', hierarchies: [] },
 						  ui: { ...this.state.ui, currentSystem: '' }
@@ -215,12 +215,12 @@ export default class System extends Component {
 	}
 	
 	componentDidMount() {
-		console.log("SYSTEM componentDidMount");
+
 		this.handleGetSystems();
 	}
 	
 	componentDidUpdate() {
-		console.log("SYSTEM componentDidUpdate");
+		//console.log("SYSTEM componentDidUpdate");
 	}
 
 	render() {
@@ -263,7 +263,11 @@ export default class System extends Component {
 				</div>
 */}
 
-				<Hierarchy addHierarchy={this.handleAddHierarchy} currentHierarchy={this.state.ui.currentHierarchy} />
+				<Hierarchy
+					addHierarchy={this.handleAddHierarchy}
+					currentHierarchy={this.state.ui.currentHierarchy}
+					hierarchies={this.state.ui.currentSystem.hierarchies}
+				/>
 				
 				<div>
 					<ul>{ hierarchies }</ul>

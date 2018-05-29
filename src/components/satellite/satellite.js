@@ -29,7 +29,6 @@ export default class Satellite extends Component {
 	
 	handleActive(id) {
 		if(id) {
-			console.log(id);
 			this.setState(
 				{ data: { ...this.state.data,
 						name: id.name,
@@ -60,8 +59,6 @@ export default class Satellite extends Component {
 	
 	handleSave(event) {
 		let data = this.state.data;
-		console.log("data from sat");
-		console.log(data);
 		if (!this.props.currentSatellite) {
 			delete data._id;
 		}

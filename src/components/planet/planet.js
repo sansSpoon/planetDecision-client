@@ -41,7 +41,6 @@ export default class Planet extends Component {
 	
 	handleActivePlanet(id) {
 		if(id) {
-			console.log(id);
 			this.setState(
 				{ data: { ...this.state.data,
 						name: id.name,
@@ -79,7 +78,6 @@ export default class Planet extends Component {
 	}
 	
 	handleActiveSatellite(id) {
-		console.log(id);
 		if(id) {
 			this.setState(
 				{ ui: { ...this.state.ui, currentSatellite: id, } }
@@ -92,7 +90,6 @@ export default class Planet extends Component {
 	}
 	
 	handleGetPlanets() {
-		console.log("PLANETS handleGetPlanets");
 		const apiBaseUri = "http://localhost:3001/planets/",
 			init = {
 				method: 'GET',
@@ -178,8 +175,6 @@ export default class Planet extends Component {
 	handleSave(event) {
 		event.preventDefault();
 		
-		console.log(this.state.ui.currentPlanet);
-		
 		const apiBaseUri = "http://localhost:3001/planets/",
 			init = {
 				body: JSON.stringify(this.state.data),
@@ -196,7 +191,6 @@ export default class Planet extends Component {
 			.then(inspectResponse)
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
-					console.log(data, status);
 					this.handleActivePlanet();
 					this.handleGetPlanets();
 				} else {
@@ -211,7 +205,6 @@ export default class Planet extends Component {
 	}
 	
 	componentDidMount() {
-		console.log("PLANETS componentDidMount");
 		this.handleGetPlanets();
 	}
 	

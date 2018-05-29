@@ -14,6 +14,9 @@ export default class Hierarchy extends Component {
 				star: '',
 				planets: [],
 			},
+			ui: {
+				hierarchies: [],
+			},
 		};
 		
 		this.handleChange = this.handleChange.bind(this);
@@ -31,7 +34,6 @@ export default class Hierarchy extends Component {
 	
 	handleActive(id) {
 		if(id) {
-			console.log(id);
 			this.setState(
 				{ data: { ...this.state.data,
 						name: id.name,
@@ -89,19 +91,38 @@ export default class Hierarchy extends Component {
 	}
 	
 	static getDerivedStateFromProps(props, state) {
-		console.log('got current hierarchy update');
-		console.log(props.currentHierarchy);
+		
+		let update = {}
+		
 		if(props.currentHierarchy) {
-			return {data: props.currentHierarchy};
+			update = Object.assign(update, {data: props.currentHierarchy});
 		}
-		return null;
+		if(props.currentHierarchy) {
+			update = Object.assign(update, {ui: props.hierarchies});
+		}
+		
+		if(Object.entries(update).length > 0) {
+
+			return update;
+		} else {
+			return null;
+		}
   }
   
   componentDidUpdate() {
-	  console.log('HIERARCHY componentDidUpdate');
+
   }
 
 	render() {
+		
+		let hierarchies = (this.props.hierarchies || []).map((item) => {
+			return (
+				<li key={item.name}>{item.name}
+					<input name="editHierarchy" value="Edit" type="button" onClick={() => this.handleActiveHierarchy(item)} />
+					<input name="deleteHierarchy" value="Delete" type="button" onClick={() => this.handleDeleteHierarchy(item._id)} />
+				</li>
+			);
+		});
 		
 		return (
 			<React.Fragment>
@@ -121,6 +142,9 @@ export default class Hierarchy extends Component {
 				</div>
 				<input name="addHierarchy" type="button" value={(this.props.currentHierarchy)?"Update":"Add"} onClick={this.handleAddHierarchy} />
 			</form>
+			<div>
+				<ul> { hierarchies } </ul>
+			</div>
 			<Star addStar={this.handleAddStar}/>
 			<Planet  addPlanet={this.handleAddPlanet}/>
 			</React.Fragment>
@@ -128,3 +152,8 @@ export default class Hierarchy extends Component {
 	}
 
 }
+/*
+Hierarchy.defaultProps = {
+	hierarchies: [],
+}
+*/

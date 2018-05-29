@@ -64,7 +64,6 @@ export default class Star extends Component {
 	}
 	
 	handleGetStars() {
-		console.log("STAR handleGetStars");
 		const apiBaseUri = "http://localhost:3001/stars/",
 			init = {
 				method: 'GET',
