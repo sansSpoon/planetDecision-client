@@ -56,7 +56,16 @@ module.exports = {
   // You can exclude the *.map files from the build during deployment.
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
-  entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  entry: {
+    index: [
+      require.resolve('./polyfills'),
+      paths.appIndexJs,
+    ],
+    admin:[
+      require.resolve('./polyfills'),
+      paths.appSrc + "/admin.js",
+    ]
+  },
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -243,7 +252,26 @@ module.exports = {
     // Generates an `index.html` file with the <script> injected.
     new HtmlWebpackPlugin({
       inject: true,
+      chunks: ['index'],
       template: paths.appHtml,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
+    }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      chunks: ['admin'],
+      template: paths.appHtml,
+      filename: 'admin.html',
       minify: {
         removeComments: true,
         collapseWhitespace: true,
