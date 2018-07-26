@@ -8,6 +8,8 @@ export default class Decision extends Component {
 
 		};
 
+		// create a ref to attach the d3 render to
+		this._rootD3Node = React.createRef();
 		this.handleChange = this.handleChange.bind(this);
 	}
 
@@ -18,9 +20,23 @@ export default class Decision extends Component {
 		this.setState({[name]: value});
 	}
 
+	componentDidMount() {
+
+	}
+
+	componentDidUpdate() {
+
+	}
+
+	componentWillUnmount() {
+
+	}
+
 	render() {
 		return (
-			<p>Decision</p>
+
+			// associate the ref to the DOM element
+			<div ref={this._rootD3Node} />
 		);
 	}
 
