@@ -1,128 +1,74 @@
 import React, { Component } from 'react';
+import { inspectResponse } from './components/utilities/utilities';
+import Decision from './components/decision/decision';
 import './App.css';
-import Welcome from './components/welcome/welcome';
-import System from './components/system/system';
-import Hierarchy from './components/hierarchy/hierarchy';
-import Star from './components/star/star';
-import Planet from './components/planet/planet';
-import Satellite from './components/satellite/satellite';
 
 class App extends Component {
-	
+
 	constructor(props) {
 		super(props);
 		this.state = {
-			auth: {
-				authenticated: false,
-				authUser: '',
-				token: '',
-			},
-			ui: {
-				nav: 'system',
-			},
 			messages: {
 				status: '',
 				message: '',
-			}
+			},
+			data: [],
 		};
-		
-		this.handleNav = this.handleNav.bind(this);
-		this.handleAuth = this.handleAuth.bind(this);
+
+		this.handleChange = this.handleChange.bind(this);
+		// this.handleGetSystems = this.handleGetSystems.bind(this);
 	}
-	
-	handleAuth(user) {
-		this.setState({auth: {...this.state.auth, ...user }});
-	}
-	
-	handleSetLocalStorage() {
-		for (let key in this.state.auth) {
-			localStorage.setItem(key, JSON.stringify(this.state.auth[key]));
-		}
-	}
-	
-	handleGetLocalStorage() {
-		let tmpAuth = {};
-		
-		for (let key in this.state.auth) {
-			if (localStorage.hasOwnProperty(key)) {
-				if (this.state.auth[key] !== localStorage.getItem(key)) {
-					tmpAuth[key] = JSON.parse(localStorage.getItem(key));
-				}
-			}
-		}
-		
-		if (Object.keys(tmpAuth).length > 0) {
-			this.setState({ auth: { ...this.state.auth, ...tmpAuth } });
-		}
-		
-	}
-	
-	handleNav(event) {
+
+	handleChange(event) {
 		const target = event.target;
+		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({ ui: {...this.state.ui, 'nav': name}});
+		this.setState({[name]: value});
 	}
-	
+
+	handleGetSystems() {
+
+		const apiBaseUri = "http://localhost:3001/systems/",
+			init = {
+				method: 'GET',
+				mode: 'cors',
+				cache: 'default',
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+				}
+			};
+
+		fetch(apiBaseUri, init)
+			.then(inspectResponse)
+			.then(({status, data}) => {
+				if (status >= 200 && status <= 299) {
+					this.setState({ data: data });
+				} else {
+					this.setState(
+						{ messages: { ...this.state.messages, status: 401, message: data.message } }
+					);
+				}
+			})
+			.catch(error => {
+				console.log('There has been a problem with the fetch operation: ', error.message);
+			}); 
+	}
+
 	componentDidMount() {
-		this.handleGetLocalStorage();
-		
-/*
-		// add event listener to save state to localStorage
-		// when user leaves/refreshes the page
-		window.addEventListener(
-			"beforeunload",
-			this.handleSetLocalStorage.bind(this)
-		);
-*/
+		this.handleGetSystems();
 	}
 	
 	componentDidUpdate() {
-		this.handleSetLocalStorage();
 	}
 	
 	componentWillUnmount() {
-/*
-		window.removeEventListener(
-			"beforeunload",
-			this.handleSetLocalStorage.bind(this)
-		);
-*/
-		
-		this.handleSetLocalStorage();
 	}
 	
 	render() {
-		if (!this.state.auth.authenticated) {
-			return (
-				<Welcome onLogin={this.handleAuth} />
-			);
-		} else {
-			return (
-				<div className="App">
-					<header className="App-header">
-						<h1 className="App-title">Planet Decision</h1>
-					</header>
-					<nav>
-						<button name="system" onClick={this.handleNav}>System</button>
-						<button name="hierarchy" onClick={this.handleNav}>Hierarchy</button>
-						<button name="star" onClick={this.handleNav}>Star</button>
-						<button name="planet" onClick={this.handleNav}>Planet</button>
-						<button name="satellite" onClick={this.handleNav}>Satellite</button>
-					</nav>
-					{(localStorage.hasOwnProperty('token')) && 
-					<section>
-						{{
-							system: <System />,
-							hierarchy: <Hierarchy />,
-							star: <Star />,
-							planet: <Planet />,
-							satellite: <Satellite />,
-						}[this.state.ui.nav]}
-					</section>
-					}
-				</div>
-			);
-		}
+		return (
+			<Decision data={this.state.data} />
+		);
 	}
 }
 
