@@ -1,3 +1,6 @@
+import * as d3 from 'd3';
+import 'd3-selection-multi';
+
 import {
 	massStar, orbitPlanet, massPlanet, orbitSatellite, massSatellite,
 } from '../utilities/utilities';
@@ -12,7 +15,7 @@ export default function render(root, renderdata, stateUI) {
 	// ----------------
 
 	// data join
-	let system = root.selectAll('.system')
+	let system = d3.select(root).selectAll('.system')
 		.data(renderdata);
 
 	// remove old systems

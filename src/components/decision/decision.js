@@ -29,11 +29,11 @@ export default class Decision extends Component {
 	}
 
 	componentDidMount() {
-		render(this._rootD3Node.current, this.props.data, this.state.ui)
+	
 	}
 
 	componentDidUpdate() {
-
+		render(this._rootD3Node.current, this.props.data, this.state.ui);
 	}
 
 	componentWillUnmount() {

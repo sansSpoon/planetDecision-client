@@ -30,7 +30,6 @@ class App extends Component {
 	}
 
 	handleGetSystems() {
-
 		const apiBaseUri = "http://localhost:3001/systems/",
 			init = {
 				method: 'GET',
@@ -47,6 +46,7 @@ class App extends Component {
 			.then(({status, data}) => {
 				if (status >= 200 && status <= 299) {
 					this.setState({ data: data });
+
 				} else {
 					this.setState(
 						{ messages: { ...this.state.messages, status: 401, message: data.message } }
