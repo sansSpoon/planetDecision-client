@@ -1,28 +1,6 @@
 import * as d3 from 'd3';
 import 'd3-selection-multi';
-import data from './data';
 
-export const config = {
-	ids: {
-		// universe: document.getElementById('universe'),
-		toggle2d: document.getElementById('toggle-2d'),
-		toggle3d: document.getElementById('toggle-3d'),
-		toggleFind: document.getElementById('toggle-find'),
-		toggleAnimation: document.getElementById('toggle-animation'),
-		starScale: document.getElementById('starScale'),
-		planetScale: document.getElementById('planetScale'),
-		orbitScale: document.getElementById('orbitScale'),
-		heliosphere: document.getElementById('heliosphere'),
-		galaxy: document.getElementById('galaxy'),
-		sScale: document.getElementById('sScale'),
-		sOrbit: document.getElementById('sOrbit'),
-		centreText: document.getElementById('centreText'),
-		centre: document.getElementById('centre'),
-	},
-	d3s: {
-		galaxy: d3.select('#galaxy'),
-	},
-};
 
 // Average out a body's orbit and apply a scale
 function _apsisAvg(body) {
@@ -62,21 +40,23 @@ function _orbitsScaled(star, starScale, planets, heliosphere) {
 	return orbitsScaled;
 }
 
-export function _rescale() {
-	orbitsScaled.range([data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value, config.ids.heliosphere.value]);
+export function _rescale(star, starScale, heliosphere) {
+	orbitsScaled.range([star.radiusKM / 100000 * starScale, heliosphere]);
 }
 
 // // STAR /////
 // /////////////
 
 // Scale Star
-export function _massStar(d) {
-	const unit = '%';
-	const calc = Math.round(d.radiusKM / 100000 * config.ids.starScale.value);
-
-	return {
-		width: `${calc}${unit}`,
-		height: `${calc}${unit}`,
+export function massStar(stateUI) {
+	return function _massStar(d) {
+		const unit = '%';
+		const calc = Math.round(d.radiusKM / 100000 * stateUI.starScale);
+	
+		return {
+			width: `${calc}${unit}`,
+			height: `${calc}${unit}`,
+		};
 	};
 }
 
@@ -104,20 +84,22 @@ export function orbitPlanet(stateUI) {
 }
 
 // Scale Planet
-export function _massPlanet(d) {
-
-	const unit = 'px';
-	const scale = 1000;
-	const calc = Math.round((d.radiusKM) / scale * config.ids.planetScale.value);
-
-	const orbit = _apsisAvg(d);
-	const orbitDuration = _kepler3(orbit);
-
-	return {
-		width: `${calc}${unit}`,
-		height: `${calc}${unit}`,
-		'margin-right': `${-Math.round(calc / 2)}${unit}`,
-		'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
+export function massPlanets(stateUI) {
+	return function _massPlanet(d) {
+	
+		const unit = 'px';
+		const scale = 1000;
+		const calc = Math.round((d.radiusKM) / scale * stateUI.planetScale);
+	
+		const orbit = _apsisAvg(d);
+		const orbitDuration = _kepler3(orbit);
+	
+		return {
+			width: `${calc}${unit}`,
+			height: `${calc}${unit}`,
+			'margin-right': `${-Math.round(calc / 2)}${unit}`,
+			'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
+		};
 	};
 }
 
@@ -125,37 +107,41 @@ export function _massPlanet(d) {
 // //////////////////
 
 // Apply lerp to satellite orbits
-export function _orbitSatellite(d, i) {
-	const unit = 'px';
-	const planetMass = Math.round(d3.select(this.parentNode).datum().radiusKM / 1000 * config.ids.planetScale.value);
-	const orbit = _apsisAvg(d);
-	const orbitCount = d3.select(this.parentNode).datum().satellites.length;
-	const orbitMax = Math.max(...d3.select(this.parentNode).datum().satellites.map(_apsisAvg));
-	const evenOrbit = Math.round((orbitMax / orbitCount) * (i + 1));
-	const scaledOrbit = Math.round(_lerp(config.ids.sOrbit.value, orbit, evenOrbit));
-
-	// console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
-	// console.log(`${orbit} - ${orbitCount} - ${orbitMax} - ${d.name}`);
-
-	return {
-		width: `${scaledOrbit + planetMass}${unit}`,
-		height: `${scaledOrbit + planetMass}${unit}`,
-		left: `${-(scaledOrbit) / 2}${unit}`,
-		top: `${-(scaledOrbit) / 2}${unit}`,
+export function orbitSatellite(stateUI) {
+	return function _orbitSatellite(d, i) {
+		const unit = 'px';
+		const planetMass = Math.round(d3.select(this.parentNode).datum().radiusKM / 1000 * stateUI.planetScale);
+		const orbit = _apsisAvg(d);
+		const orbitCount = d3.select(this.parentNode).datum().satellites.length;
+		const orbitMax = Math.max(...d3.select(this.parentNode).datum().satellites.map(_apsisAvg));
+		const evenOrbit = Math.round((orbitMax / orbitCount) * (i + 1));
+		const scaledOrbit = Math.round(_lerp(stateUI.sOrbit, orbit, evenOrbit));
+	
+		// console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
+		// console.log(`${orbit} - ${orbitCount} - ${orbitMax} - ${d.name}`);
+	
+		return {
+			width: `${scaledOrbit + planetMass}${unit}`,
+			height: `${scaledOrbit + planetMass}${unit}`,
+			left: `${-(scaledOrbit) / 2}${unit}`,
+			top: `${-(scaledOrbit) / 2}${unit}`,
+		};
 	};
 }
 
 // Scale Satellite
-export function _massSatellite(d) {
-
-	const unit = 'px';
-	const scale = 1000;
-	const calc = Math.round((d.radiusKM) / scale * config.ids.sScale.value);
-
-	return {
-		width: `${calc}${unit}`,
-		height: `${calc}${unit}`,
-		'margin-right': `${-Math.round(calc / 2)}${unit}`,
+export function massSatellite(stateUI) {
+	return function _massSatellite(d) {
+	
+		const unit = 'px';
+		const scale = 1000;
+		const calc = Math.round((d.radiusKM) / scale * stateUI.sScale);
+	
+		return {
+			width: `${calc}${unit}`,
+			height: `${calc}${unit}`,
+			'margin-right': `${-Math.round(calc / 2)}${unit}`,
+		};
 	};
 }
 
