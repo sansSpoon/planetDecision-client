@@ -52,9 +52,6 @@ function _kepler3(Rp) {
 // Max planetary orbit
 const planetMaxOrbit = Math.max(...data[0].hierarchies[0].planets.map(_apsisAvg));
 
-// Count of planets
-const planetCount = data[0].hierarchies[0].planets.length;
-
 // Scale Planet Orbits
 const orbitsScaled = d3.scaleLinear()
 	.domain([0, planetMaxOrbit])
@@ -82,10 +79,10 @@ export function _massStar(d) {
 // ///////////////
 
 // Apply lerp to planet orbits
-export function _orbitPlanet(d, i) {
+export function _orbitPlanet(d, i, nodes) {
 	const unit = '%';
 	const orbit = _apsisAvg(d);
-	const evenOrbit = Math.round((planetMaxOrbit / planetCount) * (i + 1));
+	const evenOrbit = Math.round((planetMaxOrbit / nodes.length) * (i + 1));
 	const orbitDuration = _kepler3(orbit);
 	const scaledOrbit = Math.round(orbitsScaled(_lerp(config.ids.orbitScale.value, orbit, evenOrbit)));
 
