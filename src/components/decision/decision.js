@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import render from './decisionD3';
 
 export default class Decision extends Component {
 

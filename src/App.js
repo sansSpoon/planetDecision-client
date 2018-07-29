@@ -13,6 +13,9 @@ class App extends Component {
 				message: '',
 			},
 			data: [],
+			ui: {
+				
+			},
 		};
 
 		this.handleChange = this.handleChange.bind(this);
