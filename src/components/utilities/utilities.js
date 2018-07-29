@@ -50,12 +50,17 @@ function _kepler3(Rp) {
 }
 
 // Max planetary orbit
-const planetMaxOrbit = Math.max(...data[0].hierarchies[0].planets.map(_apsisAvg));
+function _planetMaxOrbit(planets) {
+	return Math.max(...planets.map(_apsisAvg));
+}
 
 // Scale Planet Orbits
-const orbitsScaled = d3.scaleLinear()
-	.domain([0, planetMaxOrbit])
-	.range([data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value, config.ids.heliosphere.value]);
+function _orbitsScaled(star, starScale, planets, heliosphere) {
+	const orbitsScaled = d3.scaleLinear()
+		.domain([0, _planetMaxOrbit(planets)])
+		.range([star / 100000 * starScale, heliosphere]);
+	return orbitsScaled;
+}
 
 export function _rescale() {
 	orbitsScaled.range([data[0].hierarchies[0].star.radiusKM / 100000 * config.ids.starScale.value, config.ids.heliosphere.value]);
@@ -79,19 +84,22 @@ export function _massStar(d) {
 // ///////////////
 
 // Apply lerp to planet orbits
-export function _orbitPlanet(d, i, nodes) {
-	const unit = '%';
-	const orbit = _apsisAvg(d);
-	const evenOrbit = Math.round((planetMaxOrbit / nodes.length) * (i + 1));
-	const orbitDuration = _kepler3(orbit);
-	const scaledOrbit = Math.round(orbitsScaled(_lerp(config.ids.orbitScale.value, orbit, evenOrbit)));
+export function orbitPlanet(stateUI) {
+	return function _orbitPlanet(d, i, nodes) {
+		const unit = '%';
+		const orbit = _apsisAvg(d);
+		const planets = d3.select(this.parentNode).datum().planets;
+		const star = d3.select(this.parentNode).datum().star;
+		const evenOrbit = Math.round((_planetMaxOrbit(planets) / nodes.length) * (i + 1));
+		const orbitDuration = _kepler3(orbit);
+		const scaledOrbit = _orbitsScaled(star.radiusKM, stateUI.starScale, planets, stateUI.heliosphere);
+		const finalOrbit = Math.round(scaledOrbit(_lerp(stateUI.orbitScale, orbit, evenOrbit)));
 
-	// console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
-
-	return {
-		width: `${scaledOrbit}${unit}`,
-		height: `${scaledOrbit}${unit}`,
-		'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
+		return {
+			width: `${finalOrbit}${unit}`,
+			height: `${finalOrbit}${unit}`,
+			'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
+		};
 	};
 }
 
