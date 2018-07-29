@@ -40,7 +40,7 @@ function _orbitsScaled(star, starScale, planets, heliosphere) {
 	return orbitsScaled;
 }
 
-export function _rescale(star, starScale, heliosphere) {
+export function rescale(star, starScale, heliosphere, orbitsScaled) {
 	orbitsScaled.range([star.radiusKM / 100000 * starScale, heliosphere]);
 }
 
@@ -84,7 +84,7 @@ export function orbitPlanet(stateUI) {
 }
 
 // Scale Planet
-export function massPlanets(stateUI) {
+export function massPlanet(stateUI) {
 	return function _massPlanet(d) {
 	
 		const unit = 'px';

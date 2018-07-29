@@ -6,7 +6,14 @@ export default class Decision extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			ui: {
+				starScale: '',
+				planetScale: '',
+				orbitScale: '',
+				sScale: '',
+				sOrbit: '',
+				heliosphere: '',
+			}
 		};
 
 		// create a ref to attach the d3 render to
@@ -22,7 +29,7 @@ export default class Decision extends Component {
 	}
 
 	componentDidMount() {
-
+		render(this._rootD3Node.current, this.props.data, this.state.ui)
 	}
 
 	componentDidUpdate() {
@@ -37,7 +44,9 @@ export default class Decision extends Component {
 		return (
 
 			// associate the ref to the DOM element
-			<div ref={this._rootD3Node} />
+			<div id="universe">
+				<div id="galaxy" ref={this._rootD3Node} />
+			</div>
 		);
 	}
 

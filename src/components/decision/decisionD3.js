@@ -1,18 +1,18 @@
 import {
-	config, _massStar, _orbitPlanet, _massPlanet, _orbitSatellite, _massSatellite,
+	massStar, orbitPlanet, massPlanet, orbitSatellite, massSatellite,
 } from '../utilities/utilities';
 
 
 // // Main Render ////
 // ///////////////////
 
-export default function render(renderdata) {
+export default function render(root, renderdata, stateUI) {
 
 	// ! Render Systems
 	// ----------------
 
 	// data join
-	let system = config.d3s.galaxy.selectAll('.system')
+	let system = root.selectAll('.system')
 		.data(renderdata);
 
 	// remove old systems
@@ -53,7 +53,7 @@ export default function render(renderdata) {
 	star
 		.transition()
 		.duration(1000)
-		.styles(_massStar);
+		.styles(massStar(stateUI));
 
 	// remove old stars
 	star.exit().remove();
@@ -65,7 +65,7 @@ export default function render(renderdata) {
 			class: 'star',
 			id(d) { return d.name.replace(' ', '-').toLowerCase(); },
 		})
-		.styles(_massStar)
+		.styles(massStar(stateUI))
 		.merge(star);
 
 
@@ -79,7 +79,7 @@ export default function render(renderdata) {
 	pOrbit
 		.transition()
 		.duration(1000)
-		.styles(_orbitPlanet);
+		.styles(orbitPlanet(stateUI));
 
 	// remove old orbits
 	pOrbit.exit().remove();
@@ -91,7 +91,7 @@ export default function render(renderdata) {
 			class: 'orbit',
 			id(d) { return d.name.replace(' ', '-').toLowerCase(); },
 		})
-		.styles(_orbitPlanet)
+		.styles(orbitPlanet(stateUI))
 		.merge(pOrbit);
 
 
@@ -102,7 +102,7 @@ export default function render(renderdata) {
 	planet
 		.transition()
 		.duration(1000)
-		.styles(_massPlanet);
+		.styles(massPlanet(stateUI));
 
 	// remove old planets
 	planet.exit().remove();
@@ -111,7 +111,7 @@ export default function render(renderdata) {
 	planet = planet.enter()
 		.append('div')
 		.attrs({ class: 'planet' })
-		.styles(_massPlanet)
+		.styles(massPlanet(stateUI))
 		.merge(planet);
 
 
@@ -127,7 +127,7 @@ export default function render(renderdata) {
 	sOrbit
 		.transition()
 		.duration(1000)
-		.styles(_orbitSatellite);
+		.styles(orbitSatellite(stateUI));
 
 	// remove old orbits
 	sOrbit.exit().remove();
@@ -139,7 +139,7 @@ export default function render(renderdata) {
 			class: 'orbit-sat',
 			id(d) { return d.name.replace(' ', '-').toLowerCase(); },
 		})
-		.styles(_orbitSatellite)
+		.styles(orbitSatellite(stateUI))
 		.merge(sOrbit);
 
 	// data join
@@ -149,7 +149,7 @@ export default function render(renderdata) {
 	satellite
 		.transition()
 		.duration(1000)
-		.styles(_massSatellite);
+		.styles(massSatellite(stateUI));
 
 	// remove old satellite
 	satellite.exit().remove();
@@ -158,6 +158,6 @@ export default function render(renderdata) {
 	satellite = satellite.enter()
 		.append('div')
 		.attrs({ class: 'satellite' })
-		.styles(_massSatellite)
+		.styles(massSatellite(stateUI))
 		.merge(satellite);
 }
