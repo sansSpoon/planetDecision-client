@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import render from './decisionD3';
+import './main.scss';
 
 export default class Decision extends Component {
 

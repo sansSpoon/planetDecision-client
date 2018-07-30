@@ -1,0 +1,118 @@
+.controls {
+	position: absolute;
+	z-index: 1000;
+
+	p {
+		color: white;
+	}
+}
+
+#universe {
+	width: 100vw;
+	height: 100vh;
+
+	background-color: black;
+	// image all small star dots
+
+	@extend %plain;
+}
+
+#galaxy {
+	// position: absolute;
+
+	width: 100vw;
+	height: 100vh;
+
+	background-color: #9e629e; /*rgba(0, 43, 73, 0.2);*/ /* 7463 C */
+	// image of spiral galaxy, distort slightly
+
+	@extend %plain;
+}
+
+.system {
+	position: relative;
+
+	width: 100vw;
+	height: 100vh;
+
+	// background-color: darkgray;
+	// this should be transparent, maybe a outerglowing edge
+
+	transition: top 1s linear;
+
+	@extend %plain;
+}
+
+.hierarchy {
+	position: absolute;
+
+	width: 100vmin;
+	height: 100vmin;
+
+	// perspective: 500px;
+
+	@extend %plain;
+}
+
+.star {
+	position: absolute;
+
+	width: 20px;
+	height: 20px;
+
+	background-color: yellow;
+
+	// transition: all 1s linear;
+
+	@extend %body;
+}
+
+.orbit {
+	width: 60%;
+	height: 60%;
+
+	//transition: all 1s linear;
+
+	@extend %orbit;
+}
+
+.planet {
+	display: block;
+
+	width: 10px;
+	height: 10px;
+
+	background-color: rgba(149, 44, 44, 1);
+
+/*
+	transition:
+		all 1s linear,
+		background-color 5s ease-in;
+*/
+
+	@extend %body;
+}
+
+.orbit-sat {
+	width: 60%;
+	height: 60%;
+
+	//transition: all 1s linear;
+
+	@extend %orbit;
+}
+
+.satellite {
+	width: 2px;
+	height: 2px;
+
+	background-color: white;
+
+/*
+	transition:
+		all 1s linear,
+		background-color 5s ease-in;
+*/
+
+	@extend %body;
+}

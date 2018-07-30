@@ -1,0 +1,108 @@
+@keyframes orbit-cw {
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+@keyframes orbit-ccw {
+	100% {
+		transform: rotateZ(-360deg);
+	}
+}
+
+@keyframes rotation-cw {
+	0% {
+		transform: rotateX(90deg) rotateY(360deg) rotateZ(0deg);
+	}
+
+	100% {
+		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+	}
+}
+
+@keyframes rotation-ccw {
+	0% {
+		transform: rotateX(90deg) rotateY(-360deg) rotateZ(0deg);
+	}
+
+	100% {
+		transform: rotateX(90deg) rotateY(0deg) rotateZ(0deg);
+	}
+}
+
+@keyframes orbit-sat-cw {
+	0% {
+		transform: rotateX(90deg) rotateZ(360deg);
+	}
+
+	100% {
+		transform: rotateX(90deg) rotateZ(0deg);
+	}
+}
+
+@keyframes orbit-sat-ccw {
+	0% {
+		transform: rotateX(90deg) rotateZ(-360deg);
+	}
+
+	100% {
+		transform: rotateX(90deg) rotateZ(0deg);
+	}
+}
+
+.animate-3d {
+	.hierarchy {
+		transform: rotateX(75deg);
+		transform-style: preserve-3d;
+	}
+
+	.star {
+		transform: rotateX(90deg);
+	}
+
+	.orbit {
+		animation: orbit-ccw infinite linear;
+		animation-duration: 10s;
+		animation-fill-mode: both;
+		animation-delay: -1954s;
+	}
+
+	.planet {
+		background-color: rgba(149, 44, 44, 1);
+
+		animation: rotation-ccw infinite linear;
+		animation-duration: 10s;
+		animation-fill-mode: both;
+		animation-delay: -1954s;
+	}
+
+	.orbit .orbit-sat {
+		animation: orbit-sat-ccw infinite linear;
+		animation-duration: 2s;
+	}
+
+	.satellite {
+		animation: rotation-cw infinite linear;
+		animation-duration: 2s;
+		animation-fill-mode: both;
+	}
+}
+
+.animate-2d {
+	.orbit {
+		animation: orbit-ccw infinite linear;
+		animation-duration: 10s;
+		animation-fill-mode: both;
+		animation-delay: -1954s;
+	}
+
+	.orbit .orbit-sat {
+		animation: orbit-ccw infinite linear;
+		animation-duration: 2s;
+		animation-fill-mode: both;
+	}
+}
+
+.pause {
+	animation-play-state: paused !important;
+}
