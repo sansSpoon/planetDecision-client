@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inspectResponse } from './components/utilities/utilities';
 import Decision from './components/decision/decision';
+import Controls from './components/controls/controls';
 import './App.css';
 
 class App extends Component {
@@ -70,7 +71,10 @@ class App extends Component {
 	
 	render() {
 		return (
-			<Decision data={this.state.data} />
+			<React.Fragment>
+				<Controls />
+				<Decision data={this.state.data} />
+			</React.Fragment>
 		);
 	}
 }

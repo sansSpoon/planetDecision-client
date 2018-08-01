@@ -8,12 +8,12 @@ export default class Decision extends Component {
 		super(props);
 		this.state = {
 			ui: {
-				starScale: '',
-				planetScale: '',
-				orbitScale: '',
-				sScale: '',
-				sOrbit: '',
-				heliosphere: '',
+				starScale: 1,
+				planetScale: 2,
+				orbitScale: 1,
+				sScale: 1,
+				sOrbit: 1,
+				heliosphere: 90,
 			}
 		};
 
