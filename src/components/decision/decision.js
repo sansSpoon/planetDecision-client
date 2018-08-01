@@ -6,16 +6,10 @@ export default class Decision extends Component {
 
 	constructor(props) {
 		super(props);
+/*
 		this.state = {
-			ui: {
-				starScale: 1,
-				planetScale: 2,
-				orbitScale: 1,
-				sScale: 1,
-				sOrbit: 1,
-				heliosphere: 90,
-			}
 		};
+*/
 
 		// create a ref to attach the d3 render to
 		this._rootD3Node = React.createRef();
@@ -34,7 +28,7 @@ export default class Decision extends Component {
 	}
 
 	componentDidUpdate() {
-		render(this._rootD3Node.current, this.props.data, this.state.ui);
+		render(this._rootD3Node.current, this.props.data, this.props.ui);
 	}
 
 	componentWillUnmount() {

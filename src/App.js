@@ -15,8 +15,13 @@ class App extends Component {
 			},
 			data: [],
 			ui: {
-				
-			},
+				starScale: 2,
+				planetOrbitScale: 1,
+				planetScale: 1,
+				satelliteOrbitScale: 1,
+				satelliteScale: 1,
+				heliosphere: 90,
+			}
 		};
 
 		this.handleChange = this.handleChange.bind(this);
@@ -27,7 +32,7 @@ class App extends Component {
 		const target = event.target;
 		const value = target.type === 'checkbox' ? target.checked : target.value;
 		const name = target.name;
-		this.setState({[name]: value});
+		this.setState((prevState) => ({ui: {...prevState.ui, [name]: value }}));
 	}
 
 	handleGetSystems() {
@@ -72,8 +77,8 @@ class App extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Controls />
-				<Decision data={this.state.data} />
+				<Controls ui={this.state.ui} handleChange={this.handleChange}/>
+				<Decision data={this.state.data} ui={this.state.ui}/>
 			</React.Fragment>
 		);
 	}

@@ -73,7 +73,7 @@ export function orbitPlanet(stateUI) {
 		const evenOrbit = Math.round((_planetMaxOrbit(planets) / nodes.length) * (i + 1));
 		const orbitDuration = _kepler3(orbit);
 		const scaledOrbit = _orbitsScaled(star.radiusKM, stateUI.starScale, planets, stateUI.heliosphere);
-		const finalOrbit = Math.round(scaledOrbit(_lerp(stateUI.orbitScale, orbit, evenOrbit)));
+		const finalOrbit = Math.round(scaledOrbit(_lerp(stateUI.planetOrbitScale, orbit, evenOrbit)));
 
 		return {
 			width: `${finalOrbit}${unit}`,
@@ -115,7 +115,7 @@ export function orbitSatellite(stateUI) {
 		const orbitCount = d3.select(this.parentNode).datum().satellites.length;
 		const orbitMax = Math.max(...d3.select(this.parentNode).datum().satellites.map(_apsisAvg));
 		const evenOrbit = Math.round((orbitMax / orbitCount) * (i + 1));
-		const scaledOrbit = Math.round(_lerp(stateUI.sOrbit, orbit, evenOrbit));
+		const scaledOrbit = Math.round(_lerp(stateUI.satelliteOrbit, orbit, evenOrbit));
 	
 		// console.log(`${orbit} - ${evenOrbit} - ${scaledOrbit} - ${d.name}`);
 		// console.log(`${orbit} - ${orbitCount} - ${orbitMax} - ${d.name}`);
@@ -135,7 +135,7 @@ export function massSatellite(stateUI) {
 	
 		const unit = 'px';
 		const scale = 1000;
-		const calc = Math.round((d.radiusKM) / scale * stateUI.sScale);
+		const calc = Math.round((d.radiusKM) / scale * stateUI.satelliteScale);
 	
 		return {
 			width: `${calc}${unit}`,
@@ -162,7 +162,7 @@ export function camelCase(str) {
   }).replace(/\s+/g, '');
 }
 
-// 
+// Convert Camel case to Sentance(default)/Title(2)/Lower(3)/Upper(4) case
 export function notCamelCase(str, titleCase) {
 	if (!str) {
 		return '';
