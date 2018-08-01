@@ -11,6 +11,12 @@ function Input(props) {
 	);
 }
 
+function Button(props) {
+	return (
+		<button type="button" id={props.name} onClick={props.onClick}>{notCamelCase(props.name, 2)}</button>
+	)
+}
+
 export default class Controls extends Component {
 
 	constructor(props) {
@@ -32,6 +38,15 @@ export default class Controls extends Component {
 	render() {
 		return (
 			<div className='controls'>
+				<Button name='toggle-2d' />
+				<Button name='toggle-3d' />
+				<Button name='stopAnimation' />
+				<Input name='starScale' />
+				<Input name='planetOrbitScale' />
+				<Input name='planetScale' />
+				<Input name='satelliteOrbitScale' />
+				<Input name='satelliteScale' />
+				<Input name='heliosphere' />
 			</div>
 		);
 	}

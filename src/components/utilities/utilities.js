@@ -167,7 +167,7 @@ export function notCamelCase(str, titleCase) {
 	if (!str) {
 		return '';
 	}
-	const spaced = str.replace(/([A-Z]+)/g, " $1");
+	const spaced = str.replace(/([A-Z]+)/g, " $1").replace('-',' ');
 	switch (titleCase) {
 		case 4: return spaced.toUpperCase();
 		case 3: return spaced.toLowerCase();
