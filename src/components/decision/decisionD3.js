@@ -3,7 +3,7 @@ import 'd3-selection-multi';
 
 import {
 	massStar, orbitPlanet, massPlanet, orbitSatellite, massSatellite,
-} from '../utilities/utilities';
+} from '../utilities/d3Utilities';
 
 
 // // Main Render ////

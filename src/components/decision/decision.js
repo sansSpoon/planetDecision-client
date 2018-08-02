@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import render from './decisionD3';
-import { toggleAnimation } from '../utilities/utilities';
+import { toggleAnimation } from '../utilities/d3Utilities';
 import './main.scss';
 
 export default class Decision extends Component {
