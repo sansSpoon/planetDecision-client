@@ -13,7 +13,7 @@ function Input(props) {
 
 function Button(props) {
 	return (
-		<button type="button" id={props.name} onClick={props.onClick}>{notCamelCase(props.name, 2)}</button>
+		<button type="button" id={props.name} name={props.name} value={props.value} onClick={props.onClick}>{notCamelCase(props.name, 2)}</button>
 	)
 }
 
@@ -21,11 +21,11 @@ export default class Controls extends Component {
 
 	constructor(props) {
 		super(props);
-/*
+
 		this.state = {
 			
 		};
-*/
+
 		
 	//	this.handleChange = this.handleChange.bind(this);
 	}
@@ -42,8 +42,8 @@ export default class Controls extends Component {
 	render() {
 		return (
 			<div className='controls'>
-				<Button name='toggle-2d' />
-				<Button name='toggle-3d' />
+				<Button name='toggle_2d' value={this.props.ui.animate2d} onClick={this.props.handleClick}/>
+				<Button name='toggle_3d' value={this.props.ui.animate3d} onClick={this.props.handleClick}/>
 				<Button name='stopAnimation' />
 				<Input name='starScale' value={this.props.ui.starScale} onChange={this.props.handleChange}/>
 				<Input name='planetOrbitScale' value={this.props.ui.planetOrbitScale} onChange={this.props.handleChange}/>

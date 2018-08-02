@@ -167,11 +167,26 @@ export function notCamelCase(str, titleCase) {
 	if (!str) {
 		return '';
 	}
-	const spaced = str.replace(/([A-Z]+)/g, " $1").replace('-',' ');
+	const spaced = str.replace(/([A-Z]+)/g, " $1").replace('_',' ');
 	switch (titleCase) {
 		case 4: return spaced.toUpperCase();
 		case 3: return spaced.toLowerCase();
 		case 2: return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 		default: return spaced.charAt(0).toUpperCase() + spaced.slice(1).toLowerCase();
 	}
+}
+
+// Toggle 2d and 3d animation
+export function toggleAnimation(root, ui2d, ui3d) {
+	if(ui2d) {
+		d3.select(root).selectAll('.system').classed('animate-2d', true);
+		d3.select(root).selectAll('.system').classed('animate-3d', false);
+	} else if(ui3d) {
+		d3.select(root).selectAll('.system').classed('animate-2d', false);
+		d3.select(root).selectAll('.system').classed('animate-3d', true);
+	} else {
+		d3.select(root).selectAll('.system').classed('animate-2d', false);
+		d3.select(root).selectAll('.system').classed('animate-3d', false);
+	}
+	
 }
