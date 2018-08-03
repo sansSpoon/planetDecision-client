@@ -35,7 +35,7 @@ export default class Decision extends Component {
 		toggleAnimation(this._rootD3Node.current, this.props.ui.toggle_2d, this.props.ui.toggle_3d);
 
 		if (this.props.ui.toggleAnimation) {
-			centreBody(this.props.data[0].hierarchies[0].planets, this.props.ui.selectedPlanets, 5000);
+			centreBody(this.props.data[0].hierarchies[0].planets, this.props.ui.selectedPlanets, this.props.ui.animationDuration);
 		} else {
 			cancelAnimation();
 		}

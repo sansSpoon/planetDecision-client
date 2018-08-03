@@ -24,6 +24,7 @@ class App extends Component {
 				toggle_2d: false,
 				toggle_3d: false,
 				toggleAnimation: false,
+				animationDuration: 5000,
 				selectedPlanets: '',
 			}
 		};

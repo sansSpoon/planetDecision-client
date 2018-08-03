@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Input } from '../utilities/components.js';
+import './controls.scss';
 
 
 
@@ -37,6 +38,7 @@ export default class Controls extends Component {
 				<Input name='satelliteOrbitScale' value={this.props.ui.satelliteOrbitScale} onChange={this.props.handleChange}/>
 				<Input name='satelliteScale' value={this.props.ui.satelliteScale} onChange={this.props.handleChange}/>
 				<Input name='heliosphere' value={this.props.ui.heliosphere} onChange={this.props.handleChange}/>
+				<Input name='animationDuration' value={this.props.ui.animationDuration} onChange={this.props.handleChange}/>
 				<Input name='selectedPlanets' value={this.props.ui.selectedPlanets} onChange={this.props.handleChange}/>
 			</div>
 		);
