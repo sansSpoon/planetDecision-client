@@ -23,6 +23,8 @@ class App extends Component {
 				heliosphere: 90,
 				toggle_2d: false,
 				toggle_3d: false,
+				toggleAnimation: false,
+				selectedPlanets: '',
 			}
 		};
 
@@ -77,6 +79,7 @@ class App extends Component {
 	}
 	
 	componentDidUpdate() {
+
 	}
 	
 	componentWillUnmount() {

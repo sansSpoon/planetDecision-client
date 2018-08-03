@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import render from './decisionD3';
 import { toggleAnimation } from '../utilities/d3Utilities';
+import { centreBody, cancelAnimation } from '../utilities/utilities';
 import './main.scss';
 
 export default class Decision extends Component {
@@ -26,12 +27,18 @@ export default class Decision extends Component {
 	}
 
 	componentDidMount() {
-	
+		
 	}
 
 	componentDidUpdate() {
 		render(this._rootD3Node.current, this.props.data, this.props.ui);
 		toggleAnimation(this._rootD3Node.current, this.props.ui.toggle_2d, this.props.ui.toggle_3d);
+
+		if (this.props.ui.toggleAnimation) {
+			centreBody(this.props.data[0].hierarchies[0].planets, this.props.ui.selectedPlanets, 5000);
+		} else {
+			cancelAnimation();
+		}
 	}
 
 	componentWillUnmount() {
