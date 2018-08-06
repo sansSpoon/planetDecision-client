@@ -4,6 +4,8 @@
 
 	background-color: black;
 	// image all small star dots
+	
+	transition: transform .2s ease-out;
 
 	@extend %plain;
 }

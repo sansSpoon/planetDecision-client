@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { inspectResponse } from './components/utilities/utilities';
 import Decision from './components/decision/decision';
 import Controls from './components/controls/controls';
-import './App.css';
+import Draw from './components/draw/draw';
+import './App.scss';
 
 class App extends Component {
 
@@ -24,13 +25,14 @@ class App extends Component {
 				toggle_2d: false,
 				toggle_3d: false,
 				toggleAnimation: false,
+				// toggleControls: false,
 				animationDuration: 5000,
 				selectedPlanets: '',
 			}
 		};
 
 		this.handleChange = this.handleChange.bind(this);
-		this.handleAnimation = this.handleAnimation.bind(this);
+		this.handleClick = this.handleClick.bind(this);
 		// this.handleGetSystems = this.handleGetSystems.bind(this);
 	}
 
@@ -41,7 +43,7 @@ class App extends Component {
 		this.setState((prevState) => ({ui: {...prevState.ui, [name]: value }}));
 	}
 
-	handleAnimation(event) {
+	handleClick(event) {
 		const name = event.target.name;
 		this.setState((prevState) => ({ui: {...prevState.ui, [name]: !prevState.ui[name] }}));
 	}
@@ -54,7 +56,7 @@ class App extends Component {
 				cache: 'default',
 				headers: {
 					'Content-Type': 'application/json',
-					'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
+					// 'Authorization': 'Bearer ' + JSON.parse(localStorage.getItem('token'))
 				}
 			};
 
@@ -89,7 +91,9 @@ class App extends Component {
 	render() {
 		return (
 			<React.Fragment>
-				<Controls ui={this.state.ui} handleChange={this.handleChange} handleClick={this.handleAnimation}/>
+				<Draw>
+					<Controls ui={this.state.ui} handleChange={this.handleChange} handleClick={this.handleClick}/>
+				</Draw>
 				<Decision data={this.state.data} ui={this.state.ui}/>
 			</React.Fragment>
 		);
