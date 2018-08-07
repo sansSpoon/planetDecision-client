@@ -1,0 +1,46 @@
+section {
+	position: absolute;
+	top: 80vh;
+	left: 0;
+	right: 0;
+	width: 30em;
+	margin: 0 auto;
+}
+
+.question {
+	
+	& label {
+		text-align: center;
+		display: block;
+		display: none;
+		
+	}
+	& .input-group {
+		display: flex;
+		justify-content: center;
+		align-content: center;
+		& input {
+			box-sizing: border-box;
+			text-align: center;
+			display: block;
+			margin: 0 auto;
+			width: 80%;
+			font-size: 1.5em;
+			line-height: 1.5;
+			border-radius: .1em 0 0 .1em;
+			border: 1px solid #4c3e75;
+			padding: .25em;
+		}
+		& button {
+			box-sizing: border-box;
+			width: 20%;
+			font-size: 1.5em;
+			line-height: 1.5;
+			border-radius: 0 .1em .1em 0;
+			padding: .25em 1em;
+			cursor: pointer;
+			border: 1px solid #001122;
+			background: #7c889d;
+		}
+	}
+}

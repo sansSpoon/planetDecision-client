@@ -23,7 +23,7 @@ class App extends Component {
 				satelliteScale: 1,
 				heliosphere: 90,
 				toggle_2d: false,
-				toggle_3d: false,
+				toggle_3d: true,
 				toggleAnimation: false,
 				// toggleControls: false,
 				animationDuration: 5000,

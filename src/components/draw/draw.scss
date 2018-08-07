@@ -1,6 +1,4 @@
-$root-font-family: -apple-system, BlinkMacSystemFont, "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !default;
-$root-font-size: 1rem !default;
-$root-line-height: 1.5 !default;
+@import '../../variables.scss';
 
 .draw {
 	position: relative;
@@ -19,11 +17,10 @@ $root-line-height: 1.5 !default;
 	transition: transform .2s ease-out;
 	border: none;
 	background: none;
-	font-family: $root-font-family;
 	font-weight: 700;
 	font-size: 3em;
 	line-height: 1;
-	cursor: hand;
+	cursor: pointer;
 }
 
 .draw-closed, .draw-closed ~ div {
