@@ -14,6 +14,8 @@ export default class Planet extends Component {
 				aphelionAU: '',
 				perihelionAU: '',
 				orbitVelocityKMS: '',
+				answer:'',
+				colour: '',
 				satellites: [],
 			},
 			messages: {
@@ -49,6 +51,8 @@ export default class Planet extends Component {
 						aphelionAU: id.aphelionAU,
 						perihelionAU: id.perihelionAU,
 						orbitVelocityKMS: id.orbitVelocityKMS,
+						answer: id.answer,
+						colour: id.colour,
 						satellites: id.satellites,
 					},
 					ui: { ...this.state.ui,
@@ -65,6 +69,8 @@ export default class Planet extends Component {
 						aphelionAU: '',
 						perihelionAU: '',
 						orbitVelocityKMS: '',
+						answer: '',
+						colour: '',
 						satellites: [],
 					},
 					ui: { ...this.state.ui,
@@ -260,6 +266,14 @@ export default class Planet extends Component {
 					<div>
 						<label htmlFor="orbit">Orbit (km/s)</label>
 						<input id="orbit" name="orbitVelocityKMS" type="number" value={this.state.data.orbitVelocityKMS} onChange={this.handleChange} />
+					</div>
+					<div>
+						<label htmlFor="answer">Answer</label>
+						<input id="answer" name="answer" type="text" value={this.state.data.answer} onChange={this.handleChange} />
+					</div>
+					<div>
+						<label htmlFor="colour">Colour</label>
+						<input id="colour" name="colour" type="text" value={this.state.data.colour} onChange={this.handleChange} />
 					</div>
 					<input name="save" value={(this.state.ui.currentPlanet)?"Update":"Save"} type="submit" onClick={this.handleSave} />
 					<input name="cancel" type="button" value="Cancel" onClick={() => this.handleActivePlanet()} />
