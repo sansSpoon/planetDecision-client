@@ -86,10 +86,21 @@
 	@extend %body;
 	
 	&::after {
+		display:none;
+		transform: rotateX(180deg);
 		content: attr(data-answer);
 		padding: .5em;
-		border: 1px solid lime;
+		background: white;
+		position: relative;
+		margin-left: 1em;
+		border-radius: .2em;
+		top: 0;
+		right: -100%;
 	}
+}
+
+.answer.planet::after {
+	display:inline-block;
 }
 
 .orbit-sat {
