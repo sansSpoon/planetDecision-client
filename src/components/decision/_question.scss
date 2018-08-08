@@ -20,9 +20,7 @@ section {
 		justify-content: center;
 		align-content: center;
 		& input {
-			box-sizing: border-box;
 			text-align: center;
-			display: block;
 			margin: 0 auto;
 			width: 80%;
 			font-size: 1.5em;
@@ -32,7 +30,6 @@ section {
 			padding: .25em;
 		}
 		& button {
-			box-sizing: border-box;
 			width: 20%;
 			font-size: 1.5em;
 			line-height: 1.5;

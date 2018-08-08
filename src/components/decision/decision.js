@@ -28,6 +28,7 @@ export default class Decision extends Component {
 	}
 	
 	handleQuestion() {
+		cancelAnimation();
 		centreBody(this.props.data[0].hierarchies[0].planets, this.props.ui.selectedPlanets, this.props.ui.animationDuration);
 	}
 
