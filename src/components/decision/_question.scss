@@ -26,18 +26,20 @@ section {
 			font-size: 1.5em;
 			line-height: 1.5;
 			border-radius: .1em 0 0 .1em;
-			border: 1px solid #4c3e75;
+			border: 1px solid rgba(80,109,133,0.6); /* 2167 C */
+			background: rgba(158,166,180,0.3); /* 2162 C */
 			padding: .25em;
 		}
 		& button {
 			width: 20%;
 			font-size: 1.5em;
 			line-height: 1.5;
+			margin-left: -1px;
 			border-radius: 0 .1em .1em 0;
 			padding: .25em 1em;
 			cursor: pointer;
-			border: 1px solid #001122;
-			background: #7c889d;
+			border: 1px solid rgba(80,109,133,0.6); /* 2167 C */
+			background: rgba(80,109,133,0.4); /* 2167 C */
 		}
 	}
 }

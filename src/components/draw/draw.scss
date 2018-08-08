@@ -3,7 +3,7 @@
 .draw {
 	position: relative;
 	height: 300px;
-	background-color: rgba(0,134,214, .5); /* 2194 C */
+	background-color: rgba(0,134,214, 0.5); /* 2194 C */
 	transition: transform .2s ease-out;
 	z-index: 1;
 }
@@ -21,6 +21,7 @@
 	font-size: 3em;
 	line-height: 1;
 	cursor: pointer;
+	color: rgba(0, 43, 73, 0.2); /* 7463 C */
 }
 
 .draw-closed, .draw-closed ~ div {

@@ -16,8 +16,9 @@
 	width: 100vw;
 	height: 100vh;
 
-	background-color: #9e629e; /*rgba(0, 43, 73, 0.2);*/ /* 7463 C */
-	// image of spiral galaxy, distort slightly
+	background: 
+		url('./1920_CC_BY-NC.jpg') center center,
+		rgba(0, 43, 73, 0.2); /* 7463 C */
 
 	@extend %plain;
 }
