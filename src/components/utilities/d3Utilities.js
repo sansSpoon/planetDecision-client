@@ -103,6 +103,16 @@ export function massPlanet(stateUI) {
 	};
 }
 
+// Add data attribute for answers, probably don't need the closure.
+export function dataPlanet(stateUI) {
+	return function _dataPlanet(d) {
+		return {
+			'class': 'planet',
+			'data-answer': d.answer,
+		};
+	};
+}
+
 // // SATELLITE /////
 // //////////////////
 

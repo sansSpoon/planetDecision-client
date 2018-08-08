@@ -84,6 +84,12 @@
 */
 
 	@extend %body;
+	
+	&::after {
+		content: attr(data-answer);
+		padding: .5em;
+		border: 1px solid lime;
+	}
 }
 
 .orbit-sat {

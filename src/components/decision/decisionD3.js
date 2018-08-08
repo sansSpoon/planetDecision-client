@@ -2,7 +2,7 @@ import * as d3 from 'd3';
 import 'd3-selection-multi';
 
 import {
-	massStar, orbitPlanet, massPlanet, orbitSatellite, massSatellite,
+	massStar, orbitPlanet, massPlanet, dataPlanet, orbitSatellite, massSatellite,
 } from '../utilities/d3Utilities';
 
 
@@ -65,7 +65,7 @@ export default function render(root, renderdata, stateUI) {
 	star = star.enter()
 		.append('div')
 		.attrs({
-			class: 'star',
+			'class': 'star',
 			id(d) { return d.name.replace(' ', '-').toLowerCase(); },
 		})
 		.styles(massStar(stateUI))
@@ -91,7 +91,7 @@ export default function render(root, renderdata, stateUI) {
 	pOrbit = pOrbit.enter()
 		.append('div')
 		.attrs({
-			class: 'orbit',
+			'class': 'orbit',
 			id(d) { return d.name.replace(' ', '-').toLowerCase(); },
 		})
 		.styles(orbitPlanet(stateUI))
@@ -113,10 +113,9 @@ export default function render(root, renderdata, stateUI) {
 	// add new planets
 	planet = planet.enter()
 		.append('div')
-		.attrs({ class: 'planet' })
+		.attrs(dataPlanet(stateUI))
 		.styles(massPlanet(stateUI))
 		.merge(planet);
-
 
 
 	// ! Render Satellites
