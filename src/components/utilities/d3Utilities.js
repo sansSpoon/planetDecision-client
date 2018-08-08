@@ -54,8 +54,8 @@ export function massStar(stateUI) {
 		const calc = Math.round(d.radiusKM / 100000 * stateUI.starScale);
 	
 		return {
-			width: `${calc}${unit}`,
-			height: `${calc}${unit}`,
+			'width': `${calc}${unit}`,
+			'height': `${calc}${unit}`,
 		};
 	};
 }
@@ -76,8 +76,8 @@ export function orbitPlanet(stateUI) {
 		const finalOrbit = Math.round(scaledOrbit(_lerp(stateUI.planetOrbitScale, orbit, evenOrbit)));
 
 		return {
-			width: `${finalOrbit}${unit}`,
-			height: `${finalOrbit}${unit}`,
+			'width': `${finalOrbit}${unit}`,
+			'height': `${finalOrbit}${unit}`,
 			'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
 		};
 	};
@@ -86,7 +86,6 @@ export function orbitPlanet(stateUI) {
 // Scale Planet
 export function massPlanet(stateUI) {
 	return function _massPlanet(d) {
-	
 		const unit = 'px';
 		const scale = 1000;
 		const calc = Math.round((d.radiusKM) / scale * stateUI.planetScale);
@@ -95,10 +94,11 @@ export function massPlanet(stateUI) {
 		const orbitDuration = _kepler3(orbit);
 	
 		return {
-			width: `${calc}${unit}`,
-			height: `${calc}${unit}`,
+			'width': `${calc}${unit}`,
+			'height': `${calc}${unit}`,
 			'margin-right': `${-Math.round(calc / 2)}${unit}`,
 			'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
+			'background': `rgb(${d.colour})`,
 		};
 	};
 }
@@ -121,10 +121,10 @@ export function orbitSatellite(stateUI) {
 		// console.log(`${orbit} - ${orbitCount} - ${orbitMax} - ${d.name}`);
 	
 		return {
-			width: `${scaledOrbit + planetMass}${unit}`,
-			height: `${scaledOrbit + planetMass}${unit}`,
-			left: `${-(scaledOrbit) / 2}${unit}`,
-			top: `${-(scaledOrbit) / 2}${unit}`,
+			'width': `${scaledOrbit + planetMass}${unit}`,
+			'height': `${scaledOrbit + planetMass}${unit}`,
+			'left': `${-(scaledOrbit) / 2}${unit}`,
+			'top': `${-(scaledOrbit) / 2}${unit}`,
 		};
 	};
 }
@@ -138,8 +138,8 @@ export function massSatellite(stateUI) {
 		const calc = Math.round((d.radiusKM) / scale * stateUI.satelliteScale);
 	
 		return {
-			width: `${calc}${unit}`,
-			height: `${calc}${unit}`,
+			'width': `${calc}${unit}`,
+			'height': `${calc}${unit}`,
 			'margin-right': `${-Math.round(calc / 2)}${unit}`,
 		};
 	};
