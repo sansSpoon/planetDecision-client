@@ -98,7 +98,8 @@ export function massPlanet(stateUI) {
 			'height': `${calc}${unit}`,
 			'margin-right': `${-Math.round(calc / 2)}${unit}`,
 			'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
-			'background': `rgb(${d.colour})`,
+			'background': `radial-gradient(circle at 50%, rgba(0,0,0,0.1) 17%, rgba(0,0,0,0.43) 91%), rgb(${d.colour})`,
+			'font-size': `${calc/4}px`,
 		};
 	};
 }

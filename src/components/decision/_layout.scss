@@ -3,16 +3,12 @@
 	height: 100vh;
 
 	background-color: black;
-	// image all small star dots
-	
 	transition: transform .2s ease-out;
 
 	@extend %plain;
 }
 
 #galaxy {
-	// position: absolute;
-
 	width: 100vw;
 	height: 100vh;
 
@@ -29,10 +25,8 @@
 	width: 100vw;
 	height: 100vh;
 
-	// background-color: darkgray;
-	// this should be transparent, maybe a outerglowing edge
-
 	transition: top 1s linear;
+	// perspective: 1500px;
 
 	@extend %plain;
 }
@@ -43,8 +37,6 @@
 	width: 100vmin;
 	height: 100vmin;
 
-	// perspective: 500px;
-
 	@extend %plain;
 }
 
@@ -54,9 +46,8 @@
 	width: 20px;
 	height: 20px;
 
-	background-color: yellow;
-
-	// transition: all 1s linear;
+	background: radial-gradient(circle at 50%, rgba(236, 137, 16, 0.1) 17%, rgba(176, 110, 22, 0.43) 91%),yellow;
+	box-shadow: 0px 0px 50px #decf23;
 
 	@extend %body;
 }
@@ -76,7 +67,7 @@
 	width: 10px;
 	height: 10px;
 
-	background-color: rgba(149, 44, 44, 1);
+	background: rgba(149, 44, 44, 1);
 
 /*
 	transition:
