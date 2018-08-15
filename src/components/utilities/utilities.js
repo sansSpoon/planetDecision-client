@@ -100,23 +100,58 @@ export function centreBody(planetsData, planetsSelect, duration) {
 		planetsSelect = planetsSelect.split(' ');
 	}
 	
-	planetsSelect.forEach(function(planet, index) {
+	let start = null;
+	let last; //used for every n
+	let current; //current element of array
+	let previous; // previous element of array
+	let interval = 3000;
+	let intro = 1000;
+	let outro = 1000;
+	const totalPlanets = planetsSelect.length;
 
-		setTimeout(function() {
-			if (centringAnimation) {
-				cancelAnimationFrame(centringAnimation);
+	function update(timestamp) {
+
+		if (!start) start = timestamp;
+		let progress = timestamp - start;
+		let track;
+
+		// do something every n seconds (if it can)
+		if(!last || timestamp - last >= interval) {
+			last = timestamp;
+
+			// pull off the first element in the array to work on
+			// allows for previous compare
+			if(!current) {
+				current = planetsSelect.shift();
+			} else {
+				previous = current;
+				current = planetsSelect.shift();
+
+				// if there are no more elements in the array
+				if (current === undefined) {
+					current = previous;
+				}
 			}
+		}
 
-			function tick(now) {
-				const track = _getPlanetBounds(planet, planetsData);
-				_setView(track);
-				centringAnimation = requestAnimationFrame((timestamp) => tick(timestamp, planet, planetsData));
-			}
+		track = _getPlanetBounds(current, planetsData);
+		_setView(track);
 
-			centringAnimation = requestAnimationFrame((timestamp) => tick(timestamp, planet, planetsData));
-		},
-		duration * index);
-	});
+		if (track) {
+			track.element.firstChild.classList.add('answer');
+		}
+		if(previous && previous !== current) {
+			let prevPlanet = document.getElementById(previous);
+			prevPlanet.firstChild.classList.remove('answer');
+		}
+
+// 		if (progress < interval * totalPlanets) {
+			centringAnimation = requestAnimationFrame((timestamp) => update(timestamp));
+// 		}
+
+	};
+
+	centringAnimation = requestAnimationFrame((timestamp) => update(timestamp));
 }
 
 export function cancelAnimation() {
