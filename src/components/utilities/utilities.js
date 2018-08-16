@@ -101,18 +101,18 @@ export function centreBody(planetsData, planetsSelect, duration) {
 	}
 	
 	let start = null;
-	let last; //used for every n
-	let current; //current element of array
+	let last; // used for every n
+	let current; // current element of array
 	let previous; // previous element of array
 	let interval = duration || 3000;
-	let intro = 1000;
-	let outro = 1000;
-	const totalPlanets = planetsSelect.length;
+	// let intro = 1000;
+	// let outro = 1000;
+	// const totalPlanets = planetsSelect.length;
 
 	function update(timestamp) {
 
 		if (!start) start = timestamp;
-		let progress = timestamp - start;
+		// let progress = timestamp - start;
 		let track;
 
 		// do something every n seconds (if it can)
