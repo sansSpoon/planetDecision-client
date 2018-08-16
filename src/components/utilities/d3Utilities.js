@@ -1,7 +1,6 @@
 import * as d3 from 'd3';
 import 'd3-selection-multi';
 
-
 // Average out a body's orbit and apply a scale
 function _apsisAvg(body) {
 	const s = body.hasOwnProperty('aphelionAU') ? 10 : 1495.97871; // *10 is just to have easier numbers to work with
@@ -98,7 +97,7 @@ export function massPlanet(stateUI) {
 			'height': `${calc}${unit}`,
 			'margin-right': `${-Math.round(calc / 2)}${unit}`,
 			'animation-duration': `${parseFloat(orbitDuration / 4).toFixed(2)}s`,
-			'background': `radial-gradient(circle at 50%, rgba(0,0,0,0.1) 17%, rgba(0,0,0,0.43) 91%), rgb(${d.colour})`,
+			'background': `radial-gradient(circle at 50%, rgba(0,0,0,0.1) 17%, rgba(0,0,0,0.43) 91%), url(/static/media/${d.name.toLowerCase()}.jpg) 0 0/cover rgb(${d.colour})`,
 			'font-size': `${calc/4}px`,
 		};
 	};

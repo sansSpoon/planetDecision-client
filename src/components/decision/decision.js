@@ -3,6 +3,8 @@ import render from './decisionD3';
 import { toggleAnimation } from '../utilities/d3Utilities';
 import { centreBody, cancelAnimation } from '../utilities/utilities';
 import './main.scss';
+import './jupiter.jpg';
+import './sun.jpg'
 
 export default class Decision extends Component {
 
@@ -54,6 +56,10 @@ export default class Decision extends Component {
 	render() {
 		return (
 			<React.Fragment>
+				<div className="title">
+					<h1>See if the universe is on your side.</h1>
+					<p>Planet Decision will give you the answers to your most pressing questions.</p>
+				</div>
 				{/* associate the ref to the DOM element */}
 				<div id="universe">
 					<div id="galaxy" ref={this._rootD3Node} />

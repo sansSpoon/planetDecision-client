@@ -43,3 +43,24 @@ section {
 		}
 	}
 }
+
+.title {
+	color: rgba(255,255,255,.7);
+	background-color: transparent;
+	position: absolute;
+	top: 37vh;
+	left: 0;
+	right: 0;
+	width: 40em;
+	margin: 0 auto;
+	z-index: 500;
+	
+	& p, h1 {
+		color: inherit;
+		text-align: center;
+	}
+	
+	& h1 {
+		margin-bottom: 0;
+	}
+}

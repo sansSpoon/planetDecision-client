@@ -16,17 +16,17 @@ class App extends Component {
 			},
 			data: [],
 			ui: {
-				starScale: 2,
+				starScale: 3,
 				planetOrbitScale: 1,
 				planetScale: 1,
 				satelliteOrbitScale: 1,
 				satelliteScale: 1,
-				heliosphere: 90,
+				heliosphere: 200,
 				toggle_2d: false,
 				toggle_3d: true,
 				toggleAnimation: false,
 				// toggleControls: false,
-				animationDuration: 5000,
+				animationDuration: 2000,
 				selectedPlanets: '',
 			}
 		};
