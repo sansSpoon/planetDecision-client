@@ -84,8 +84,8 @@ function _setView(planet) {
 	const system = document.getElementById('solar-system');
 	const { left, top } = system.getBoundingClientRect();
 
-	system.style.left = `${(centerW + left) - (planet.x + planet.width / 2)}px`;
-	system.style.top = `${(centerH + top) - (planet.y + planet.height / 2)}px`;
+	system.style.left = `${Math.round((centerW + left) - (planet.x + planet.width / 2))}px`;
+	system.style.top = `${Math.round((centerH + top) - (planet.y + planet.height / 2))}px`;
 
 }
 
@@ -104,7 +104,7 @@ export function centreBody(planetsData, planetsSelect, duration) {
 	let last; //used for every n
 	let current; //current element of array
 	let previous; // previous element of array
-	let interval = 3000;
+	let interval = duration || 3000;
 	let intro = 1000;
 	let outro = 1000;
 	const totalPlanets = planetsSelect.length;
@@ -159,4 +159,6 @@ export function cancelAnimation() {
 	const system = document.getElementById('solar-system');
 	system.style.left = 'auto';
 	system.style.top = 'auto';
+	const answers = document.querySelectorAll('.answer');
+	answers.forEach((el) => el.classList.remove('answer'));
 }
