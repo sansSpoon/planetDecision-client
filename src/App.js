@@ -49,7 +49,7 @@ class App extends Component {
 	}
 
 	handleGetSystems() {
-		const apiBaseUri = "http://localhost:3001/systems/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/systems/`,
 			init = {
 				method: 'GET',
 				mode: 'cors',

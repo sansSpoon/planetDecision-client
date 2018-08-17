@@ -105,7 +105,7 @@ export default class System extends Component {
 	
 	handleDeleteSystem(id) {
 	
-		const apiBaseUri = "http://localhost:3001/systems/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/systems/`,
 			init = {
 				method: 'DELETE',
 				mode: 'cors',
@@ -132,7 +132,7 @@ export default class System extends Component {
 	
 	handleGetSystems() {
 
-		const apiBaseUri = "http://localhost:3001/systems/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/systems/`,
 			init = {
 				method: 'GET',
 				mode: 'cors',
@@ -165,7 +165,7 @@ export default class System extends Component {
 
 		event.preventDefault();
 		
-		const apiBaseUri = "http://localhost:3001/systems/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/systems/`,
 			payload = {
 				"name": this.state.data.systemName,
 				"hierarchies": this.state.data.hierarchies

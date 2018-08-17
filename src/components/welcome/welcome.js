@@ -31,7 +31,7 @@ class Welcome extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		const apiBaseUri = "http://localhost:3001/auth/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/auth/`,
 			payload = this.state.data,
 			init = {
 				body: JSON.stringify(payload),

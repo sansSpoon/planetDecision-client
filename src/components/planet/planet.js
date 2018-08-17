@@ -96,7 +96,7 @@ export default class Planet extends Component {
 	}
 	
 	handleGetPlanets() {
-		const apiBaseUri = "http://localhost:3001/planets/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/planets/`,
 			init = {
 				method: 'GET',
 				mode: 'cors',
@@ -131,7 +131,7 @@ export default class Planet extends Component {
 	
 	handleDeletePlanet(id) {
 	
-		const apiBaseUri = "http://localhost:3001/planets/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/planets/`,
 			init = {
 				method: 'DELETE',
 				mode: 'cors',
@@ -181,7 +181,7 @@ export default class Planet extends Component {
 	handleSave(event) {
 		event.preventDefault();
 		
-		const apiBaseUri = "http://localhost:3001/planets/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/planets/`,
 			init = {
 				body: JSON.stringify(this.state.data),
 				method: this.state.ui.currentPlanet ? 'PUT' : 'POST',

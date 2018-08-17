@@ -65,7 +65,7 @@ export default class Star extends Component {
 	handleSave(event) {
 		event.preventDefault();
 		
-		const apiBaseUri = "http://localhost:3001/stars/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/stars/`,
 			payload = this.state.data,
 			init = {
 				body: JSON.stringify(payload),
@@ -96,7 +96,7 @@ export default class Star extends Component {
 	}
 	
 	handleGetStars() {
-		const apiBaseUri = "http://localhost:3001/stars/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/stars/`,
 			init = {
 				method: 'GET',
 				mode: 'cors',
@@ -131,7 +131,7 @@ export default class Star extends Component {
 	
 	handleDeleteStar(id) {
 	
-		const apiBaseUri = "http://localhost:3001/stars/",
+		const apiBaseUri = `${process.env.REACT_APP_APIHOST}:${process.env.REACT_APP_APIPORT}/stars/`,
 			init = {
 				method: 'DELETE',
 				mode: 'cors',
